@@ -1,0 +1,10 @@
+{
+  "name": "ZepGo",
+  "description": "AI-Powered Smart EV Charging & Navigation Assistant. Predicts pre-trip charging needs, monitors journeys, and recommends optimal EV charging stations in real-time.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
