@@ -1,150 +1,601 @@
-# ⚡ ZepGO — Premium EV Intelligent Journey Planning & Smart Stop System
+# ⚡ ZepGO — Intelligent EV Route & Charging Assistant
 
-> **Predictive Charger Availability Upon Arrival • Integrated Driver Rest & Cafe Intelligence • Built for Indian Highways & EVs**
+> **Plan smarter. Charge safer. Drive farther.**
 
----
+ZepGO is an intelligent EV navigation and charging assistant designed to make long-distance electric vehicle travel more reliable and stress-free.
 
-## 🌟 Overview
-
-**ZepGO** is a next-generation intelligent journey planning platform designed specifically for electric vehicle (EV) drivers. Unlike conventional mapping applications that only locate static charger pins, **ZepGO predicts charger reliability and plug occupancy at your exact arrival time** (+30 min / +60 min forecasts). 
-
-ZepGO features an integrated **Smart Stop & Cafe Recommendation engine** that harmonizes driver comfort with EV charging needs—pairing rest breaks, cafes, and amenities to the vehicle's exact charging duration.
+Unlike basic navigation systems that mainly provide routes and nearby charging stations, **ZepGO considers the vehicle's battery condition, expected energy consumption, traffic, road conditions, weather, charging-station risks, and backup options before recommending a route or charger.**
 
 ---
 
-## ✨ Key Differentiators & Features
+## 🚗 What is ZepGO?
 
-### 🔮 1. Predictive Charger Reliability (The Core Brain)
-* **Arrival Occupancy Forecasts**: Calculates predicted plug availability (+30m / +60m ahead) using machine learning telemetry, historic queue data, and real-time highway flow.
-* **LOW RISK Confidence Badges**: Displays green **LOW RISK** badges when arrival confidence exceeds 90%.
-* **Automated Backup Rerouting**: Detects high-risk charger congestion ahead and proactively offers 1-tap reroutes to verified backup chargers (e.g. Relux 2.4 km away).
+Electric vehicle drivers often face uncertainty during long-distance trips:
 
-### ☕ 2. Contextual Smart Stop & Cafe Recommendations
-* **Synchronized Rest & Charge**: Matches cafe recommendations to the EV's exact charging window (e.g. 24-minute charge at Salem = Saravana Bhavan Cafe + Restroom).
-* **Driver Break Interval Alignment**: Prompts timely rest recommendations based on continuous driving duration and battery SOC.
-* **Unified Stop Gauges**: Visualizes driver break time and battery charging time side-by-side on a synchronized progress ring.
+* Will the current battery be enough?
+* Where should I charge?
+* Will the charger be available when I reach?
+* What if there is a queue?
+* What if the charger is faulty?
+* How much battery will remain after reaching the destination?
+* Is the route affected by traffic, hills, weather, or road conditions?
+* What happens if the vehicle develops a problem during the trip?
 
-### 🇮🇳 3. Tailored for Indian EVs & Highway Routes
-* **Indian EV Specs**: Pre-configured battery telemetry for **Tata Nexon EV Max (40.5 kWh)**, **MG ZS EV (50.3 kWh)**, **Mahindra XUV400**, and **Hyundai Ioniq 5**.
-* **Realistic Indian Corridors**: Real-world route simulation along the **NH544 highway corridor (Chennai → Vellore → Salem → Coimbatore)**.
-* **Network Integration**: Integrated data for Zeon Charging, Relux Electric, Tata Power EZ Charge, and ChargeZone.
+**ZepGO brings these factors together into one intelligent EV travel assistant.**
 
----
+The system analyzes the trip before and during travel and provides:
 
-## 📱 34-Screen Master Interactive Prototype
-
-ZepGO includes a complete 34-screen interactive mobile prototype rendered in an **iPhone 390x844px presentation frame**, featuring 4 interactive viewing modes:
-
-1. 📱 **Interactive Phone View**: 100% clickable prototype inside an iPhone mockup frame with live status bar & battery telemetry.
-2. 📊 **Figma-Style 34-Screen Flow Board**: Side-by-side presentation board displaying all 34 screens simultaneously.
-3. ☕ **Smart Stop Suite**: Dedicated 10-screen breakdown of the Smart Stop & Cafe feature.
-4. 🎨 **Design System Specs**: Live interactive documentation of design tokens, color scales, typography hierarchy, and UI component standards.
+**Route → Energy Prediction → Charging Decision → Charger Risk → Backup Plan → Travel Support**
 
 ---
 
-## 🎨 Visual Design System
+# 🎯 Problem Statement
 
-| Element | Specification | Hex / Value |
-|---|---|---|
-| **Primary Color** | Deep Black (Text & CTAs) | `#0B0F0D` |
-| **Action & Intelligence** | EV Green (Status & Available) | `#22C55E` |
-| **Light Backgrounds** | Soft Light Green | `#EAF8EF` |
-| **Card Surface** | Pure White | `#FFFFFF` |
-| **Secondary Text** | Slate Grey | `#6B7280` |
-| **Warning / Alerts** | Amber & Crimson (Strictly Warnings) | `#F59E0B` / `#EF4444` |
-| **Border Radius** | Smooth Curved Cards | `16px` – `24px` |
-| **Typography** | Sans-Serif Grid | Inter / System Sans |
+Current EV navigation and charging applications often provide route navigation or charging-station information separately.
 
----
+However, EV drivers need a more complete decision-making system that considers:
 
-## 📑 Complete 34-Screen Catalog
+* Vehicle-specific battery capacity
+* Current battery percentage
+* Real-world energy consumption
+* Traffic conditions
+* Road type and elevation
+* Weather conditions
+* Charging-station availability
+* Queue conditions
+* Connector/port availability
+* Charger faults or maintenance
+* Charging cost
+* Backup charging options
+* Emergency vehicle issues
 
-### 🚀 Core User Journey (Screens 1–24)
-1. **Splash Screen**: Minimalist EV bolt logo with pulse animation.
-2. **Three Onboarding Screens**: Smart Route, Smart Charging, & Intelligent Journey onboarding carousel.
-3. **Login / Sign-up**: Mobile OTP (`+91`), Google SSO, and Guest Mode.
-4. **Home Screen**: Location inputs, 72% battery status card, Tata Nexon context, quick routes, bottom navigation.
-5. **Select Your EV**: Vehicle cards for Tata Nexon EV Max, MG ZS EV, Mahindra XUV400, Ioniq 5.
-6. **Battery SOC Input**: Interactive SOC slider (0–100%), real range calculation, quick presets.
-7. **Journey Preferences**: AC usage, charging network preferences, payload settings.
-8. **AI Route Analysis**: Animated progress steps checking battery, elevation, weather & charger forecasts.
-9. **Route Results (Hero)**: Chennai → Coimbatore (342 km, 1 stop at Salem), **LOW RISK** green status badge.
-10. **Route Comparison**: 3 options (Optimal, Fastest, Minimal Stops).
-11. **Smart Stop Detection Card**: Contextual break suggestion card during route planning.
-12. **Recommended Stop Screen**: Combined driver rest + EV charging stop at Salem (Zeon 150 kW DC).
-13. **Cafe Recommendation During Charging**: Cafes matched to the exact 24-minute charge duration.
-14. **Charging + Cafe Combined Screen**: Unified stop card with synchronized driver break & charge time gauge.
-15. **Add Stop Selection Menu**: Category selector modal (Cafes, Restaurants, Restrooms, Parks).
-16. **Smart Stop Preferences**: Cuisine selection, dietary preferences, and rest break intervals.
-17. **Route Updated Screen**: Recalculated route timeline, arrival SOC, and total trip duration.
-18. **Alternative Stop Comparison**: Side-by-side comparison of 3 rest stop options along NH544.
-19. **Stop Details Deep-Dive**: In-depth breakdown of Salem Saravana Bhavan & Zeon Fast Charger Hub.
-20. **Live Navigation Map**: Turn-by-turn guidance banner, clean map layer, floating next charger card.
-21. **Smart Stop Live Nav Card**: Floating notification card during live navigation for upcoming recommended stops.
-22. **Charging Station Details**: Key differentiator screen — **+30m / +60m predictive plug availability graphs**.
-23. **Charger Risk Alert Screen**: High congestion prediction warning with 1-tap backup charger reroute button.
-24. **Backup Charger Selection**: Verified backup chargers (Relux Fast Charger 2.4 km away).
-
-### ⚡ Utility & Profile Views (Screens 25–34)
-25. **Charging Progress Screen**: 120 kW Fast charge gauge, live battery curve, nearby cafe amenities.
-26. **Trip Completed Celebration**: Confetti celebration, total energy delivered, cost & Co2 savings.
-27. **Trip Summary Analytics**: Analytics cards with 98.4% prediction accuracy score & petrol savings.
-28. **Interactive Map Screen**: Search bar & quick filter chips (Fast / Available / Reliable).
-29. **Charging Stations List**: List view sorted by predicted plug availability upon arrival.
-30. **ZepGO AI Assistant**: Clean conversational Q&A interface for EV trip queries.
-31. **Notifications Center**: Real-time alerts on charger status, congestion, and weather changes.
-32. **Saved Places & Hubs**: Saved home/work destinations and favorite charger hubs.
-33. **My EV Garage**: Connected vehicle specs, SOH (98%), and efficiency curves.
-34. **Profile & App Settings**: User account management, preferences, and membership details.
+ZepGO aims to combine these factors into a single intelligent travel-planning system.
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+# 💡 Our Solution
 
-* **Frontend Framework**: React 18 with TypeScript
-* **Build Tooling**: Vite 8
-* **Styling & Design System**: Tailwind CSS, Lucide Icons, Custom Design Tokens (`src/theme/colors.ts`)
-* **Mapping**: Leaflet / React-Leaflet
-* **State & Data Services**: Modular TypeScript service layer (`src/services/`)
+ZepGO creates a **dynamic EV travel plan** based on the driver's vehicle, battery state, destination, and real-world travel conditions.
 
----
+### Basic workflow
 
-## 💻 Getting Started Locally
-
-### Prerequisites
-* **Node.js**: `v18.0.0` or higher
-* **npm**: `v9.0.0` or higher
-
-### Installation & Local Run
-
-```bash
-# Clone repository
-git clone https://github.com/preethi1918/ZepGO.git
-
-# Navigate to directory
-cd ZepGO
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
+```text
+Vehicle Details
+      ↓
+Current Location + Battery %
+      ↓
+Destination
+      ↓
+Route Analysis
+      ↓
+Energy / Range Prediction
+      ↓
+Traffic + Weather + Road Analysis
+      ↓
+Charging Requirement
+      ↓
+Charger Risk Analysis
+      ↓
+Primary Charger + Backup Charger
+      ↓
+Recommended Route
 ```
 
-Open `http://localhost:5173` in your browser to interact with the application.
+---
 
-### Building for Production
+# ✨ Key Features
 
-```bash
-# Type check & build production bundle
-npm run build
+## 1. 🔋 Vehicle-Aware Range Prediction
 
-# Preview production build
-npm run preview
+ZepGO does not depend only on the manufacturer's claimed range.
+
+It considers factors such as:
+
+* Battery capacity
+* Current battery percentage
+* Vehicle efficiency
+* Traffic
+* Road conditions
+* Elevation
+* Weather
+* Driving distance
+
+This helps estimate a more realistic arrival battery percentage.
+
+---
+
+## 2. 🗺️ Intelligent Route Planning
+
+ZepGO analyzes possible routes based on:
+
+* Distance
+* Traffic
+* Road conditions
+* Elevation
+* Energy consumption
+* Charging requirements
+
+The goal is not simply to select the shortest route, but to find a **practical EV-friendly route**.
+
+---
+
+## 3. ⚡ Smart Charging Decision
+
+ZepGO determines whether charging is actually required.
+
+If the vehicle can safely reach the destination while maintaining the required battery reserve:
+
+> **No charging stop is recommended.**
+
+If the predicted arrival battery is too low:
+
+> **A charging stop is introduced into the route.**
+
+This prevents unnecessary charging stops.
+
+---
+
+## 4. 🔌 Charger Risk Analysis
+
+Instead of recommending a charger only because it is nearby, ZepGO evaluates charging risk.
+
+Factors include:
+
+* Charger availability
+* Number of ports
+* Possible queue
+* Charger status
+* Maintenance/fault information
+* Charging cost
+* Distance from route
+* Expected arrival battery
+
+---
+
+## 5. 🛡️ Backup Charger Planning
+
+ZepGO maintains a backup option when possible.
+
+Example:
+
+```text
+Primary Charger
+      ↓
+Expected to be available
+      ↓
+Continue
+
+If risk becomes high
+      ↓
+Switch to Backup Charger
 ```
+
+This reduces the chance of reaching a charger that cannot be used.
+
+---
+
+## 6. 📊 "Why This Charger?" Explanation
+
+ZepGO does not only show a charger.
+
+It explains **why that charger was selected**.
+
+Example:
+
+```text
+Why this charger?
+
+✓ Arrival Battery: 21%
+✓ Charging Reserve: 15%
+✓ Low detour
+✓ Available charging ports
+✓ Lower queue risk
+✓ Backup charger available
+✓ Suitable charging cost
+```
+
+This makes the recommendation easier for the driver to understand.
+
+---
+
+## 7. 🌦️ Traffic, Weather & Road Monitoring
+
+Trip planning can consider changing travel conditions such as:
+
+* Traffic congestion
+* Rain/weather conditions
+* Road elevation
+* Difficult road sections
+* Unexpected travel delays
+
+These conditions can affect energy consumption and therefore influence charging decisions.
+
+---
+
+## 8. ☕ Smart Stop Recommendations
+
+When charging is required, ZepGO can recommend useful nearby places such as:
+
+* Cafés
+* Restaurants
+* Restrooms
+* Rest areas
+* Other useful facilities
+
+Instead of simply saying:
+
+> "Charge here"
+
+ZepGO can provide:
+
+> "Charge here + nearby place to spend your charging time."
+
+---
+
+## 9. 🚨 Emergency & Vehicle Support
+
+ZepGO can provide support for unexpected vehicle problems such as:
+
+* Low battery situations
+* Tyre puncture
+* Vehicle breakdown
+* Emergency assistance
+* Nearby support locations
+
+---
+
+## 10. 📡 Low-Network Travel Support
+
+Long-distance travel can involve areas with weak connectivity.
+
+ZepGO is designed with the idea of maintaining essential trip information so that the driver can continue to access important travel details when network availability is limited.
+
+---
+
+# 🔋 Battery Reserve Strategy
+
+ZepGO maintains a safety reserve instead of planning the trip around completely emptying the battery.
+
+Example:
+
+```text
+Current Battery
+      ↓
+Energy Consumption Prediction
+      ↓
+Destination Reachability
+      ↓
+Safety Reserve
+      ↓
+Charging Decision
+```
+
+The reserve can be configured by the system based on trip conditions.
+
+The system should **not simply assume that every trip requires charging**.
+
+---
+
+# 🤖 AI / ML Components
+
+ZepGO can combine machine learning with physical battery and route information.
+
+### Range Prediction
+
+**XGBoost** can be used to predict energy consumption/range using features such as:
+
+```text
+Battery %
+Battery Capacity
+Vehicle Efficiency
+Distance
+Traffic
+Elevation
+Weather
+Road Conditions
+```
+
+### Anomaly Detection
+
+An anomaly-detection model such as **Isolation Forest** can help identify unusual vehicle or travel behavior.
+
+Example:
+
+```text
+Expected Energy Consumption
+          ↓
+Actual Energy Consumption
+          ↓
+Large Difference?
+          ↓
+Potential Anomaly
+```
+
+---
+
+# 🧠 Hybrid Prediction Approach
+
+ZepGO can combine:
+
+```text
+Physics-based estimation
+          +
+Machine Learning prediction
+          +
+Real-time travel conditions
+          ↓
+Improved Energy Estimation
+```
+
+This avoids depending entirely on either a fixed range value or a machine-learning prediction.
+
+---
+
+# 🏗️ System Architecture
+
+```text
+                   ┌─────────────────────┐
+                   │      User / EV      │
+                   └──────────┬──────────┘
+                              │
+                              ▼
+                 ┌─────────────────────────┐
+                 │   ZepGO Web Interface   │
+                 │                         │
+                 │ Location                │
+                 │ Destination             │
+                 │ Battery %               │
+                 │ Vehicle Details         │
+                 └────────────┬────────────┘
+                              │
+                              ▼
+                 ┌─────────────────────────┐
+                 │     FastAPI Backend     │
+                 └────────────┬────────────┘
+                              │
+             ┌────────────────┼─────────────────┐
+             │                │                 │
+             ▼                ▼                 ▼
+      Route Analysis    Weather Data      Elevation Data
+      Google Maps       OpenWeather        Google Elevation
+             │                │                 │
+             └────────────────┼─────────────────┘
+                              ▼
+                 ┌─────────────────────────┐
+                 │   Energy Prediction     │
+                 │        XGBoost          │
+                 └────────────┬────────────┘
+                              │
+                              ▼
+                 ┌─────────────────────────┐
+                 │ Charging Intelligence   │
+                 │                         │
+                 │ Charger Risk            │
+                 │ Queue                   │
+                 │ Availability            │
+                 │ Cost                    │
+                 │ Backup Charger          │
+                 └────────────┬────────────┘
+                              │
+                              ▼
+                 ┌─────────────────────────┐
+                 │   ZepGO Recommendation  │
+                 │                         │
+                 │ Route                   │
+                 │ Charging Stops          │
+                 │ Arrival Battery         │
+                 │ Backup Plan              │
+                 │ Stop Recommendations    │
+                 └─────────────────────────┘
+```
+
+---
+
+# 🛠️ Technology Stack
+
+### Frontend
+
+* HTML / CSS / JavaScript
+* Modern responsive web interface
+* Interactive map-based travel experience
+
+### Backend
+
+* Python
+* FastAPI
+
+### Machine Learning
+
+* Python
+* XGBoost
+* Isolation Forest
+* Pandas
+* NumPy
+
+### APIs / Data Sources
+
+* Google Maps API — route and traffic information
+* OpenWeather API — weather information
+* Google Elevation API — elevation/road profile information
+
+### Database / Cloud
+
+Depending on deployment requirements:
+
+* Firebase
+* Cloud database
+* Docker
+* AWS / Render / Vercel
+
+---
+
+# 🔄 ZepGO Decision Flow
+
+```text
+1. Enter current location
+          ↓
+2. Enter destination
+          ↓
+3. Select / load vehicle
+          ↓
+4. Enter current battery %
+          ↓
+5. Calculate possible routes
+          ↓
+6. Estimate energy consumption
+          ↓
+7. Check traffic
+          ↓
+8. Check weather
+          ↓
+9. Analyze elevation & road conditions
+          ↓
+10. Check destination reachability
+          ↓
+11. Decide whether charging is required
+          ↓
+12. Evaluate charging stations
+          ↓
+13. Select primary + backup charger
+          ↓
+14. Recommend route
+          ↓
+15. Monitor trip conditions
+```
+
+---
+
+# 🚘 Vehicle Profile
+
+Users can save vehicle information such as:
+
+| Vehicle Information | Example                |
+| ------------------- | ---------------------- |
+| Vehicle Brand       | Tata                   |
+| Model               | Nexon EV               |
+| Battery Capacity    | 40.5 kWh               |
+| Current Battery     | 65%                    |
+| Efficiency          | Vehicle-specific       |
+| Estimated Range     | Dynamically calculated |
+
+Supported vehicle categories can include EV models from brands such as:
+
+* Tata
+* MG
+* Mahindra
+* Hyundai
+
+The system can be extended to additional EV models.
+
+---
+
+# 🆚 Existing Approach vs ZepGO
+
+| Capability                    | Basic Navigation | Charging Apps | ZepGO |
+| ----------------------------- | ---------------: | ------------: | ----: |
+| Route Navigation              |                ✓ |       Limited |     ✓ |
+| EV-specific planning          |          Limited |             ✓ |     ✓ |
+| Vehicle battery consideration |          Limited |             ✓ |     ✓ |
+| Dynamic range prediction      |          Limited |       Limited |     ✓ |
+| Traffic consideration         |                ✓ |       Limited |     ✓ |
+| Weather consideration         |          Limited |       Limited |     ✓ |
+| Road/elevation analysis       |          Limited |       Limited |     ✓ |
+| Charger risk analysis         |          Limited |             ✓ |     ✓ |
+| Backup charger planning       |          Limited |       Limited |     ✓ |
+| "Why this charger?"           |                ✗ |       Limited |     ✓ |
+| Stop recommendations          |          Limited |       Limited |     ✓ |
+| Emergency support             |          Limited |       Limited |     ✓ |
+
+---
+
+# 🌟 What Makes ZepGO Different?
+
+ZepGO is designed around **decision-making rather than simply displaying information**.
+
+Instead of showing:
+
+> "Here are charging stations."
+
+ZepGO aims to answer:
+
+> **"Do I need to charge, where should I charge, why is this charger suitable, what battery will I have when I arrive, and what is my backup if something goes wrong?"**
+
+This makes the system more focused on **EV trip reliability**.
+
+---
+
+# 🎯 Target Users
+
+ZepGO is intended for:
+
+* EV owners
+* Long-distance EV travelers
+* Daily EV commuters
+* First-time EV users
+* Fleet operators
+* EV travel planners
+
+---
+
+# 🌱 Benefits
+
+### For EV Drivers
+
+* Reduced range anxiety
+* Better charging decisions
+* Fewer unnecessary charging stops
+* Better trip planning
+* Backup options during uncertain situations
+
+### For EV Ecosystem
+
+* Better utilization of charging infrastructure
+* More informed charging decisions
+* Improved EV travel experience
+
+### Environmental Benefit
+
+More efficient EV trip planning can help reduce unnecessary detours and energy consumption.
+
+---
+
+# 🚀 Future Enhancements
+
+Future versions of ZepGO can include:
+
+* Real-time charger reservation
+* Live charger occupancy
+* More EV models
+* Personalized driving profiles
+* Battery health estimation
+* Charging-cost optimization
+* Fleet management
+* Voice-based navigation
+* Offline route intelligence
+* Real-time vehicle telemetry
+* Predictive maintenance
+* EV-to-charger compatibility checking
+
+---
+
+# 📌 Project Status
+
+**ZepGO is currently under development.**
+
+The project focuses on building an intelligent EV travel assistant that combines:
+
+**Navigation + Battery Intelligence + Charging Intelligence + Real-Time Conditions + Driver Support**
+
+---
+
+# 👥 Project
+
+**Project Name:** ZepGO
+**Domain:** Electric Vehicle / AI / ML / Smart Mobility
+**Application Type:** Intelligent EV Route & Charging Assistant
 
 ---
 
 ## 📄 License
 
-Distributed under the MIT License. See `LICENSE` for details.
+This project is developed for educational, research, and innovation purposes.
