@@ -48,6 +48,7 @@ Recommended Route & Live Monitoring
 
 ## 🚨 2. The Core Problem Statement
 
+<<<<<<< HEAD
 Electric vehicle drivers on highway corridors face 10 critical challenges:
 1. **Range Anxiety**: Fear of depleting the battery pack before reaching a destination.
 2. **Uncertainty of Range Estimates**: Instrument cluster estimates ("Guess-O-Meters") fluctuate wildly based on driving style.
@@ -114,11 +115,34 @@ ZepGO unifies route calculation, telemetry simulation, machine learning, and dyn
                  │ Seamless Backup Reroute │
                  └─────────────────────────┘
 ```
+=======
+## 1. 🔋 Vehicle-Aware Range Prediction
+ZepGO does not depend only on the manufacturer's claimed range. It considers battery capacity, current state of charge, vehicle efficiency, elevation, and weather.
+
+## 2. 🗺️ Intelligent Route Planning
+Analyzes optimal routes considering energy consumption, traffic, elevation, and available charging infrastructure.
+
+## 3. ⚡ Smart Charging Decision
+Determines if charging is actually required, preventing unnecessary detour stops.
+
+## 4. 🔌 Charger Risk Analysis
+Evaluates station availability, port counts, queue predictions, charger status, and cost.
+
+## 5. 🛡️ Backup Charger Planning
+Maintains fallback charging stations along the route if the primary charger becomes unavailable or congested.
+
+## 6. 📊 "Why This Charger?" Explanation
+Provides clear reasoning behind selected charging recommendations.
+
+## 7. ☕ Smart Stop Recommendations
+Recommends nearby amenities (cafés, rest areas, restaurants) during charging sessions.
+>>>>>>> origin/main
 
 ---
 
 ## ✨ 4. Key Platform Features
 
+<<<<<<< HEAD
 ### 1. 🔋 Vehicle-Aware Range Prediction
 Rather than trusting static manufacturer ranges, ZepGO models:
 - Usable battery capacity & real-time SOC
@@ -201,6 +225,43 @@ python -m pytest backend/tests
 
 # Start FastAPI server
 python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 --reload
+=======
+### Frontend
+* **Framework:** React 19 + Vite
+* **Language:** TypeScript / JavaScript
+* **Styling:** Vanilla CSS / Tailwind CSS v4
+* **Icons:** Lucide React
+* **Routing:** React Router v7
+
+### Backend
+* **Framework:** Python 3.11 + FastAPI
+* **Server:** Uvicorn
+* **ML/Analytics:** XGBoost, Isolation Forest, Pandas, NumPy
+
+---
+
+# 📁 Project Structure
+
+```text
+Zep_Go/
+├── backend/
+│   ├── main.py              # FastAPI application entry point
+│   ├── requirements.txt      # Python dependencies
+│   ├── routes/              # API route definitions (/api/health, etc.)
+│   ├── services/            # Intelligence & prediction services
+│   ├── models/              # Pydantic & data schemas
+│   └── utils/               # Utility functions
+├── src/
+│   ├── components/          # UI Components (Dashboard, Live, Layout, UI)
+│   ├── pages/               # Application Pages & Route Views
+│   ├── context/             # App Context (Auth, Vehicle, Journey)
+│   ├── routes/              # React Router setup
+│   ├── utils/               # Client-side intelligence engines
+│   ├── App.tsx              # Root App Component
+│   └── index.css            # Design system & styles
+├── package.json             # Frontend dependencies
+└── README.md                # Documentation
+>>>>>>> origin/main
 ```
 API runs at `http://127.0.0.1:8000` (Interactive Docs: `http://127.0.0.1:8000/docs`).
 
@@ -226,6 +287,7 @@ docker-compose up --build
 
 ---
 
+<<<<<<< HEAD
 ## ☁️ 8. Cloud Deployment Guide
 
 ### Vercel (Frontend)
@@ -239,9 +301,27 @@ docker-compose up --build
 1. In Render (`render.com`), create a **New Blueprint Instance**.
 2. Connect the `https://github.com/preethi1918/ZepGo` repository.
 3. Render reads `render.yaml`, spins up Python 3.11, runs dependency installation, trains the XGBoost model, and starts Uvicorn on dynamic `$PORT`.
+=======
+# 💻 How to Run the Project
 
----
+### 1. Running the Frontend (React + Vite)
 
+Ensure Node.js (v18+) is installed.
+
+```bash
+# Install dependencies
+npm install
+
+# Start the Vite development server
+npm run dev
+```
+
+The frontend will be accessible at `http://localhost:5173`.
+>>>>>>> origin/main
+
+### 2. Running the Backend (FastAPI)
+
+<<<<<<< HEAD
 ## 🔑 9. Demo Persona & Default Scenario
 
 - **User**: Preethi (`preethi@zepgo.io` / `password123`)
@@ -251,9 +331,18 @@ docker-compose up --build
 - **Safety Reserve**: 18%
 - **Expected Arrival Battery**: 24.1%
 - **Charging Recommendation**: Zeon Charging Hub - Salem Highway (120 kW Fast Charger, 24 min charge)
+=======
+Ensure Python (3.9+) is installed.
 
----
+```bash
+# Navigate to backend directory
+cd backend
+>>>>>>> origin/main
 
+# Install dependencies
+pip install -r requirements.txt
+
+<<<<<<< HEAD
 ## 📚 10. Platform Documentation Suite
 
 - 🏛️ [ARCHITECTURE.md](ARCHITECTURE.md) — System design, components, ranking algorithms, and resilience.
@@ -268,3 +357,18 @@ docker-compose up --build
 ## 🛡️ 11. License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+=======
+# Start FastAPI server
+python -m uvicorn main:app --reload --host 127.0.0.1 --port 8000
+```
+
+Verify backend health check at `http://127.0.0.1:8000/api/health`.
+
+---
+
+# 📌 Project Status
+
+**ZepGO is actively under development.**
+
+This project is developed for educational, research, and innovation purposes.
+>>>>>>> origin/main

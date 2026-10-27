@@ -1,80 +1,68 @@
 import React from 'react';
-import { Zap, Bell, ShieldAlert, WifiOff, Car } from 'lucide-react';
-import type { ActivePage } from './Sidebar';
+import { Link } from 'react-router-dom';
+import { Zap, Menu, X, ShieldCheck } from 'lucide-react';
 
 interface NavbarProps {
-  activePage: ActivePage;
-  onPageChange: (page: ActivePage) => void;
-  onOpenNotifications: () => void;
-  onOpenSOS: () => void;
-  unreadCount?: number;
-  vehicleName?: string;
-  isLowNetworkMode?: boolean;
+  onToggleSidebar?: () => void;
+  isSidebarOpen?: boolean;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({
-  activePage: _activePage,
-  onPageChange,
-  onOpenNotifications,
-  onOpenSOS,
-  unreadCount = 2,
-  vehicleName = 'Tata Nexon EV Max',
-  isLowNetworkMode = false
-}) => {
+export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }) => {
   return (
-    <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/90 px-4 sm:px-6 py-3 flex items-center justify-between font-[Inter,sans-serif]">
-      {/* Mobile Brand and Page title */}
-      <div className="flex items-center gap-3">
-        <div
-          className="md:hidden flex items-center gap-2 cursor-pointer"
-          onClick={() => onPageChange('landing')}
-        >
-          <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-black">
-            <Zap size={18} className="fill-white" />
+    <header className="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-2xs">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Left: Hamburger + Brand */}
+          <div className="flex items-center gap-3">
+            {onToggleSidebar && (
+              <button
+                onClick={onToggleSidebar}
+                className="p-2 rounded-md text-slate-500 hover:text-slate-700 hover:bg-slate-100 lg:hidden focus:outline-none"
+                aria-label="Toggle navigation menu"
+              >
+                {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            )}
+
+            <Link to="/dashboard" className="flex items-center gap-2 group">
+              <div className="w-9 h-9 rounded-lg bg-emerald-600 flex items-center justify-center text-white shadow-xs group-hover:bg-emerald-700 transition-colors">
+                <Zap className="w-5 h-5 fill-white" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xl font-black tracking-tight text-slate-900 leading-none">
+                  Zep<span className="text-emerald-600">GO</span>
+                </span>
+                <span className="text-[10px] font-semibold text-slate-500 tracking-wider uppercase mt-0.5">
+                  EV Intelligence
+                </span>
+              </div>
+            </Link>
           </div>
-          <span className="font-black text-slate-900 text-base">ZepGO</span>
+
+          {/* Center: Phase 1 Badge */}
+          <div className="hidden md:flex items-center gap-2 bg-slate-50 border border-slate-200 px-3 py-1 rounded-full text-xs text-slate-600 font-medium">
+            <ShieldCheck className="w-4 h-4 text-emerald-600" />
+            <span>Phase 1: UI Foundation</span>
+          </div>
+
+          {/* Right: User Quick Profile */}
+          <div className="flex items-center gap-3">
+            <Link
+              to="/profile"
+              className="flex items-center gap-2 p-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors text-slate-700 text-sm font-medium"
+            >
+              <div className="w-7 h-7 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs">
+                EV
+              </div>
+              <span className="hidden sm:inline-block text-xs font-semibold text-slate-800">
+                Driver Profile
+              </span>
+            </Link>
+          </div>
         </div>
-
-        {/* Active vehicle badge on Desktop */}
-        <div className="hidden md:flex items-center gap-2 bg-slate-50 border border-slate-200 px-3 py-1 rounded-full text-xs">
-          <Car size={14} className="text-emerald-600" />
-          <span className="font-semibold text-slate-700">{vehicleName}</span>
-          <span className="text-[10px] text-emerald-700 font-bold bg-emerald-100/80 px-1.5 py-0.2 rounded-full">
-            40.5 kWh
-          </span>
-        </div>
-      </div>
-
-      {/* Right Tools: Offline status, Notifications, SOS */}
-      <div className="flex items-center gap-2.5">
-        {isLowNetworkMode && (
-          <span className="text-[11px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-full flex items-center gap-1">
-            <WifiOff size={13} />
-            <span className="hidden sm:inline">Offline Cache</span>
-          </span>
-        )}
-
-        <button
-          onClick={onOpenNotifications}
-          className="p-2 rounded-xl text-slate-600 hover:bg-slate-100 relative cursor-pointer transition"
-          title="Notifications"
-        >
-          <Bell size={18} />
-          {unreadCount > 0 && (
-            <span className="absolute top-1 right-1 w-4 h-4 bg-emerald-600 text-white rounded-full text-[10px] font-bold flex items-center justify-center">
-              {unreadCount}
-            </span>
-          )}
-        </button>
-
-        <button
-          onClick={onOpenSOS}
-          className="px-3 py-1.5 bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200/80 rounded-xl text-xs font-bold flex items-center gap-1 cursor-pointer transition"
-        >
-          <ShieldAlert size={14} />
-          <span>SOS</span>
-        </button>
       </div>
     </header>
   );
 };
+
+export default Navbar;
