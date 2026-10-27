@@ -1,6 +1,7 @@
 # ⚡ ZepGO – AI-Powered EV Navigation & Charging Intelligence Platform
 
-> **"ZepGO doesn't just tell an EV where to go. It predicts whether the EV can safely get there and intelligently decides where, when and why it should charge."**
+> **Plan smarter. Charge safer. Drive farther.**
+> *"ZepGO doesn't just tell an EV where to go. It predicts whether the EV can safely get there and intelligently decides where, when, and why it should charge."*
 
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg?style=flat&logo=fastapi)](https://fastapi.tiangolo.com)
 [![React](https://img.shields.io/badge/Frontend-React%2018%20%2B%20TypeScript-61DAFB.svg?style=flat&logo=react)](https://reactjs.org)
@@ -21,9 +22,31 @@ ZepGO transforms this experience into a vehicle-aware, risk-resilient intelligen
 - It ranks highway charging stations not just by proximity, but by **plug availability upon arrival, charging speed, connector compatibility, cost, and safety margin**.
 - Crucially, it provides transparent explainability through the **"Why This Charger?"** framework, answering **WHAT**, **WHY**, and **IMPACT**.
 
+```text
+Vehicle Details
+      ↓
+Current Location + Battery %
+      ↓
+Destination
+      ↓
+Route Analysis
+      ↓
+Energy / Range Prediction (XGBoost)
+      ↓
+Traffic + Weather + Elevation Analysis
+      ↓
+Charging Requirement Evaluation
+      ↓
+Charger Risk & Availability Scoring
+      ↓
+Primary Charger + Verified Backup Charger
+      ↓
+Recommended Route & Live Monitoring
+```
+
 ---
 
-## 🚨 2. The Core Problem
+## 🚨 2. The Core Problem Statement
 
 Electric vehicle drivers on highway corridors face 10 critical challenges:
 1. **Range Anxiety**: Fear of depleting the battery pack before reaching a destination.
@@ -39,165 +62,183 @@ Electric vehicle drivers on highway corridors face 10 critical challenges:
 
 ---
 
-## 💡 3. The ZepGO Solution
+## 💡 3. The ZepGO Solution Architecture
 
-ZepGO solves these challenges through a unified full-stack architecture:
+ZepGO unifies route calculation, telemetry simulation, machine learning, and dynamic charger intelligence:
 
+```text
+                 ┌─────────────────────────┐
+                 │       User Inputs       │
+                 │                         │
+                 │ Current Location        │
+                 │ Destination             │
+                 │ Battery %               │
+                 │ Vehicle Details         │
+                 └────────────┬────────────┘
+                              │
+                              ▼
+                 ┌─────────────────────────┐
+                 │     FastAPI Backend     │
+                 └────────────┬────────────┘
+                              │
+             ┌────────────────┼─────────────────┐
+             │                │                 │
+             ▼                ▼                 ▼
+      Route Analysis    Weather Data      Elevation Data
+      Google Maps       OpenWeather        Google Elevation
+             │                │                 │
+             └────────────────┼─────────────────┘
+                              ▼
+                 ┌─────────────────────────┐
+                 │   Energy Prediction     │
+                 │   (XGBoost Regressor)   │
+                 └────────────┬────────────┘
+                              │
+                              ▼
+                 ┌─────────────────────────┐
+                 │  Charging Intelligence  │
+                 │                         │
+                 │ Charger Risk            │
+                 │ Predictive Availability │
+                 │ Real-time Queues        │
+                 │ Verified Backup Charger │
+                 └────────────┬────────────┘
+                              │
+                              ▼
+                 ┌─────────────────────────┐
+                 │   ZepGO Recommendation  │
+                 │                         │
+                 │ Optimized Route         │
+                 │ Explainable Stops       │
+                 │ Arrival Battery Margin  │
+                 │ Seamless Backup Reroute │
+                 └─────────────────────────┘
 ```
-[ User & EV Profile ] ──> [ Context Factors (Speed, Weather, Topography) ]
-                                    │
-                                    ▼
-                [ Supervised XGBoost Energy Regressor ]
-                                    │
-                                    ▼
-             [ Arrival SOC vs Safety Reserve (18%) Check ]
-                                    │
-                                    ▼
-           [ Multi-Factor Charging Intelligence & Risk Engine ]
-                                    │
-                                    ▼
-            [ "Why This Charger?" Explainability Breakdown ]
-                                    │
-                                    ▼
-         [ Live Navigation HUD + Dynamic Rerouting + Amenities ]
-```
 
 ---
 
-## 🏆 4. Competitor Positioning
+## ✨ 4. Key Platform Features
 
-Existing EV navigation tools (Google Maps, PlugShare, ABRP) offer valuable route planning and static charger directories. ZepGO differentiates by synthesizing vehicle-specific telemetry and contextual intelligence into explainable charging decisions:
+### 1. 🔋 Vehicle-Aware Range Prediction
+Rather than trusting static manufacturer ranges, ZepGO models:
+- Usable battery capacity & real-time SOC
+- Aerodynamic drag ($v^2$) and vehicle curb weight
+- Traffic idling energy draws
+- Elevation potential work ($m \cdot g \cdot \Delta h$)
+- Ambient temperature cabin thermal loads (HVAC)
 
-| Capability | Traditional Maps | Basic EV Navigators | ZepGO Platform |
-|---|---|---|---|
-| **Routing Metric** | Distance / Traffic Time | Basic Distance / SOC | Physics-based Energy Budget ($kWh$) |
-| **Charger Ranking** | Sorted by Distance | Distance & Brand Filter | **Multi-factor Safety, Speed, Queue & Cost Score** |
-| **Explainability** | None | None | **"Why This Charger?" (WHAT, WHY, IMPACT)** |
-| **Charger Redundancy** | Shows single pin | Shows nearby pins | **Quantified Risk Level (LOW / MEDIUM / HIGH)** |
-| **Driver Amenities** | Generic POIs | Separate search | **"While You Charge" Synchronized Amenities** |
-| **Sudden Weather/Traffic** | Reroutes for traffic only | Static plan | **Dynamic Recalculation with Instant Rerouting** |
-| **Emergency Dispatch** | None | None | **Integrated 1-Tap Roadside SOS Hub** |
+### 2. 🗺️ Intelligent Route Planning
+Analyzes multiple highway corridor variants, prioritizing overall travel efficiency, charger reliability, and minimum total trip time.
+
+### 3. ⚡ Smart Charging Decision
+- If the EV reaches the destination with SOC $\ge \text{Safety Reserve}$: **No charging stop is inserted**, avoiding wasted detours.
+- If predicted SOC falls below reserve: **An optimal high-speed charging stop is seamlessly sequenced**.
+
+### 4. 🔌 Predictive Charger Risk & Queue Scoring
+Evaluates stations using a multi-factor risk model:
+- Historical uptime and maintenance reports
+- Live connector availability and queue progression
+- Predictive plug availability (+30 min / +60 min forecasting)
+
+### 5. 🛡️ Automatic Backup Charger Planning
+For every recommended primary charger, ZepGO identifies and verifies a reliable backup charger within 5–10 km in case of unexpected queues or downtime.
+
+### 6. 📊 "Why This Charger?" Explainability Framework
+Drivers receive transparent rationale before committing to a stop:
+- **WHAT**: Hub name, speed rating (kW), and connector types.
+- **WHY**: Plug availability, buffer margin above safety reserve, and lowest cost.
+- **IMPACT**: Required charging time, estimated cost, and final destination battery buffer.
+
+### 7. ☕ "While You Charge" Amenity Experience
+Recommends verified highway amenities (restrooms, cafes, dining, illuminated night zones) so drivers never wait in isolated or uncomfortable locations.
+
+### 8. 🚨 Integrated Emergency SOS Hub
+Immediate 1-tap support for battery critical alerts, breakdown assistance, flat tyre support, or authorized roadside dispatch.
 
 ---
 
-## 🛠️ 5. Technology Stack
+## 🤖 5. Machine Learning Engine
 
-- **Frontend**:
-  - React 18, TypeScript, Tailwind CSS, Lucide Icons
-  - Interactive Mapping: Leaflet, React-Leaflet, OpenStreetMap
-  - Responsive Light Theme Design System (`#F8FAFC`, Emerald `#10B981`, Slate `#0F172A`)
-  - Resilient Client-Side Fallback Engine
-- **Backend**:
-  - Python 3.11, FastAPI, Uvicorn
-  - Pydantic v2 validation models
-  - RESTful modular architecture across 8 service domains
-- **Machine Learning**:
-  - **XGBoost Regressor**: Supervised energy prediction model ($R^2 = 0.9910$, $\text{MAE} = 1.33\text{ kWh}$)
-  - **Scikit-learn Isolation Forest**: Unsupervised efficiency anomaly detection ($< 3.5\text{ km/kWh}$)
-  - NumPy, Pandas, Joblib
-- **DevOps & Deployment**:
-  - Docker & Docker Compose multi-container orchestration
-  - Vercel SPA deployment configuration (`vercel.json`)
-  - Automated Pytest test suite (14 verified tests)
-
----
-
-## 🤖 6. Machine Learning Architecture
-
-### 6.1 XGBoost Energy Regressor
-Energy consumption does not scale linearly with distance. ZepGO’s XGBoost regression model takes **9 real-world highway telemetry features**:
+### 5.1 XGBoost Energy Regressor
+Trained on highway EV telemetry data with 9 core features:
 1. `battery_capacity_kwh`
 2. `battery_soc_percent`
 3. `distance_km`
 4. `vehicle_efficiency_km_per_kwh`
-5. `average_speed_kmh` (aerodynamic drag scaling quadratically with speed)
-6. `traffic_factor` (stop-and-go idle draw)
-7. `temperature_celsius` (cabin HVAC thermal load)
-8. `rain_factor` (rolling resistance from wet asphalt)
-9. `elevation_gain_m` (gravitational potential work)
+5. `average_speed_kmh`
+6. `traffic_factor`
+7. `temperature_celsius`
+8. `rain_factor`
+9. `elevation_gain_m`
 
-### 6.2 Isolation Forest Anomaly Detection
-The Isolation Forest continuously scores highway efficiency ($km/kWh$). If consumption drops below normal highway bounds (e.g. $< 3.5\text{ km/kWh}$), ZepGO alerts the driver:
-> *"Unusual energy consumption detected. Possible causes: Heavy traffic, low tyre pressure, extreme headwind, or aggressive driving."*
-
----
-
-## 📸 7. Application Walkthrough & Screenshots
-
-### Master Executive Dashboard
-The primary command center displays real-time driver context:
-- **Greeting**: *"Good evening, Preethi"*
-- **Current EV**: *Tata Nexon EV Max (40.5 kWh, 6.8 km/kWh)*
-- **Battery Card**: *62% SOC (25.1 kWh available, 184 km estimated range, 18% Safety Reserve indicator)*
-- **Destination & Status**: *Coimbatore (142 km, Safe to continue)*
-- **Interactive Route Map**: Leaflet OSM map highlighting the NH544 corridor and recommended charging hubs.
-
-### "Why This Charger?" Explainability Card
-Every recommendation adheres to the 3-pillar explainability framework:
-- **WHAT**: Zeon Charging Hub - Salem Highway (120 kW dual-gun CCS2 fast charger).
-- **WHY**: Optimal corridor position (12 km ahead), guaranteed 24.1% arrival buffer above the 18% reserve, 3 available plugs, lowest tariff (₹18/kWh).
-- **IMPACT**: +24 min charging, +₹180 estimated cost, +18% safety buffer margin restored.
-
-### Live Navigation HUD & Dynamic Recalculation
-- Cruising speed gauge (74 km/h), remaining distance, real-time ETA, and dynamic battery drain.
-- **Simulate Traffic Spike**: Demonstrates real-time rerouting when sudden congestion increases energy draw below the safety threshold.
-
-### "While You Charge" Stop Experience
-- 24-minute fast charging countdown timer and battery charging curve.
-- Nearby amenities within walking distance: Cafe Coffee Day, clean highway restrooms, restaurant, and grocery store.
-
-### Emergency SOS Hub
-- 1-tap roadside dispatch for Low Battery Emergency, Vehicle Breakdown, Flat Tyre, or Accident without unauthorized emergency calls.
+### 5.2 Isolation Forest Anomaly Detection
+Continuously monitors driving consumption patterns. If real-time consumption drops below normal highway bounds, ZepGO alerts the driver to investigate tyre pressure, strong headwinds, or HVAC anomalies.
 
 ---
 
-## 🚀 8. Getting Started
+## 🛠️ 6. Technology Stack
 
-### Prerequisites
-- Node.js 18+ & npm
-- Python 3.10+ or 3.11+
-- (Optional) Docker & Docker Compose
+- **Frontend**: React 18, TypeScript, Vite 8, Tailwind CSS, Lucide Icons, Leaflet / React-Leaflet
+- **Backend**: Python 3.11, FastAPI, Uvicorn, Pydantic v2
+- **Machine Learning**: XGBoost, Scikit-learn (Isolation Forest), Pandas, NumPy
+- **Containerization & Deployment**: Docker, Docker Compose, Vercel, Render
 
-### 8.1 Backend Setup
+---
+
+## 🚀 7. Getting Started
+
+### 7.1 Backend Setup (FastAPI & XGBoost)
 ```bash
-# Clone the repository
-git clone https://github.com/preethi1918/ZepGO.git
-cd ZepGO
+# Navigate to backend and install dependencies
+cd backend
+pip install -r requirements.txt
 
-# Install Python requirements
-pip install -r backend/requirements.txt
-
-# Train or verify ML model artifacts
+# Train ML models & generate artifacts
 python -m backend.app.ml.train_model
 
-# Run automated tests
+# Run the 14-test verification suite
 python -m pytest backend/tests
 
-# Start FastAPI backend
+# Start FastAPI server
 python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
-Backend runs at `http://127.0.0.1:8000` (API Docs: `http://127.0.0.1:8000/docs`).
+API runs at `http://127.0.0.1:8000` (Interactive Docs: `http://127.0.0.1:8000/docs`).
 
-### 8.2 Frontend Setup
-In a new terminal window:
+### 7.2 Frontend Setup (React & Vite)
 ```bash
-# Install Node dependencies
+# In the root directory:
 npm install
 
-# Build for production
+# Build production bundle
 npm run build
 
-# Start Vite development server
+# Start local development server
 npm run dev
 ```
 Frontend runs at `http://localhost:5173`.
 
-### 8.3 Docker Deployment
+### 7.3 Docker Multi-Container Deployment
 ```bash
 docker-compose up --build
 ```
-- Frontend: `http://localhost:80`
-- Backend: `http://localhost:8000`
+- Frontend UI: `http://localhost:80`
+- Backend API: `http://localhost:8000`
+
+---
+
+## ☁️ 8. Cloud Deployment Guide
+
+### Vercel (Frontend)
+1. Push repository changes to GitHub (`git push origin main`).
+2. In Vercel (`vercel.com`), select **Add New Project** and import `preethi1918/ZepGo`.
+3. Vercel automatically detects the Vite framework and `vercel.json` routing rules.
+4. Set `VITE_API_URL` to your production backend URL (e.g. `https://zepgo-backend.onrender.com`).
+5. Click **Deploy**.
+
+### Render (Backend)
+1. In Render (`render.com`), create a **New Blueprint Instance**.
+2. Connect the `https://github.com/preethi1918/ZepGo` repository.
+3. Render reads `render.yaml`, spins up Python 3.11, runs dependency installation, trains the XGBoost model, and starts Uvicorn on dynamic `$PORT`.
 
 ---
 
@@ -215,7 +256,6 @@ docker-compose up --build
 
 ## 📚 10. Platform Documentation Suite
 
-Detailed architectural, API, and setup documentation is available in the repository:
 - 🏛️ [ARCHITECTURE.md](ARCHITECTURE.md) — System design, components, ranking algorithms, and resilience.
 - 📡 [API_DOCUMENTATION.md](API_DOCUMENTATION.md) — Complete 18-endpoint REST API reference.
 - 🧠 [ML_DOCUMENTATION.md](ML_DOCUMENTATION.md) — XGBoost and Isolation Forest training, features, and metrics.
@@ -225,15 +265,6 @@ Detailed architectural, API, and setup documentation is available in the reposit
 
 ---
 
-## 🔮 11. Future Scope
-
-1. **CAN-Bus / OBD-II Integration**: Real-time reading of battery pack temperatures and state-of-health (SOH) via BLE adapters.
-2. **Dynamic Charger Reservation**: Direct API booking of charging slots through OCPP 2.0.1 integration.
-3. **Fleet Management Portal**: Multi-vehicle telemetry dashboard for EV taxi and delivery fleet operators.
-4. **Grid Carbon Intensity Awareness**: Scheduling charging stops during peak renewable energy generation hours.
-
----
-
-## 🛡️ 12. License
+## 🛡️ 11. License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
