@@ -3,10 +3,10 @@ import { Zap, ArrowRight, Check } from 'lucide-react';
 import { AuthService } from '../services/auth';
 
 interface AuthPageProps {
-  onAuthSuccess: () => void;
+  onAuthSuccess?: () => void;
 }
 
-export const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess }) => {
+export const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess = () => { window.location.hash = '#/home'; } }) => {
   const [mode, setMode] = useState<'login' | 'register' | 'onboarding'>('login');
   const [email, setEmail] = useState('preethi@zepgo.in');
   const [password, setPassword] = useState('password123');

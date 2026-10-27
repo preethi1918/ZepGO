@@ -11,7 +11,12 @@ import {
   Car,
   Settings,
   Sparkles,
-  ChevronRight
+  ChevronRight,
+  BarChart3,
+  Brain,
+  ShieldAlert,
+  BatteryCharging,
+  Layers
 } from 'lucide-react';
 import { Logo } from '../ui/Logo';
 import { cn } from '../../utils/cn';
@@ -26,15 +31,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose, classN
   const location = useLocation();
 
   const navItems = [
-    { label: 'Home', path: '/home', icon: Home },
+    { label: 'Dashboard', path: '/home', icon: Home },
     { label: 'Plan Trip', path: '/plan-trip', icon: MapPin },
-    { label: 'Live Journey', path: '/live-journey', icon: Navigation, badge: 'Live' },
-    { label: 'Chargers', path: '/chargers', icon: Zap },
-    { label: 'Smart Stops', path: '/smart-stops', icon: Coffee },
-    { label: 'Assistance', path: '/assistance', icon: LifeBuoy },
-    { label: 'History', path: '/history', icon: History },
-    { label: 'Vehicle', path: '/vehicle', icon: Car },
-    { label: 'Settings', path: '/settings', icon: Settings }
+    { label: 'Route Comparison', path: '/route-result', icon: Layers },
+    { label: 'Live Navigation', path: '/live-journey', icon: Navigation, badge: 'Live' },
+    { label: 'AI Energy Prediction', path: '/energy-prediction', icon: Brain },
+    { label: 'Charging Session', path: '/charging-session', icon: BatteryCharging },
+    { label: 'Charger Discovery', path: '/chargers', icon: Zap },
+    { label: 'Smart Amenities', path: '/smart-stops', icon: Coffee },
+    { label: 'Risk Analysis Engine', path: '/risk-analysis', icon: ShieldAlert },
+    { label: 'EV Analytics & Health', path: '/analytics', icon: BarChart3 },
+    { label: 'EV Garage Fleet', path: '/garage', icon: Car },
+    { label: 'Trip History', path: '/history', icon: History },
+    { label: 'Emergency Assistance', path: '/assistance', icon: LifeBuoy, badge: 'SOS' },
+    { label: 'Settings & Margins', path: '/settings', icon: Settings }
   ];
 
   return (

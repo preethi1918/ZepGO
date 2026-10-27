@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   MapPin,
@@ -36,22 +36,26 @@ export const PlanTripPage: React.FC = () => {
 
   const [vehicle, setVehicle] = useState<Vehicle>(() => storage.getVehicleData());
 
-  const [from, setFrom] = useState('Chennai');
+  const [from, setFrom] = useState('Salem');
   const [to, setTo] = useState('Coimbatore');
+  const [batterySoc, setBatterySoc] = useState(62);
   const [optionalStop, setOptionalStop] = useState('');
   const [showStopInput, setShowStopInput] = useState(false);
   const [departureTime, setDepartureTime] = useState('08:00 AM');
 
   const [preference, setPreference] = useState<TripPreference>('Fastest');
 
-  const [traffic, setTraffic] = useState<TrafficCondition>('normal');
+  const [traffic, setTraffic] = useState<TrafficCondition>('heavy');
   const [weather, setWeather] = useState<WeatherCondition>('normal');
-  const [road, setRoad] = useState<RoadCondition>('good');
+  const road: RoadCondition = 'good';
+  const [cabinAc, setCabinAc] = useState<'active' | 'off' | 'auto'>('auto');
 
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setVehicle(storage.getVehicleData());
+    const v = storage.getVehicleData();
+    setVehicle(v);
+    if (v.soc) setBatterySoc(v.soc);
   }, []);
 
   const routeData = findRoute(from, to, optionalStop);
@@ -60,7 +64,7 @@ export const PlanTripPage: React.FC = () => {
     preference,
     { traffic, weather, road },
     departureTime,
-    vehicle
+    { ...vehicle, soc: batterySoc }
   );
 
   const preferencesList: { label: TripPreference; desc: string; icon: React.ReactNode }[] = [
@@ -109,7 +113,7 @@ export const PlanTripPage: React.FC = () => {
               </Badge>
               <span className="text-xs text-slate-400 font-mono">/plan-trip</span>
             </div>
-            <PageTitle gradient>Plan Your Journey</PageTitle>
+            <PageTitle gradient>Plan Intelligent EV Journey</PageTitle>
             <PageSubtitle>
               Calculate real-time battery consumption, safety buffers, and charging recommendations.
             </PageSubtitle>
@@ -119,8 +123,48 @@ export const PlanTripPage: React.FC = () => {
             <Car className="w-4 h-4 text-emerald-600 shrink-0" />
             <div className="flex flex-col text-right">
               <span className="text-[11px] font-extrabold text-slate-900">{vehicle.brand} {vehicle.model}</span>
-              <span className="text-[10px] text-emerald-700 font-mono font-bold">SOC: {vehicle.soc}% ({vehicle.batteryCapacity} kWh)</span>
+              <span className="text-[10px] text-emerald-700 font-mono font-bold">SOC: {batterySoc}% ({vehicle.batteryCapacity} kWh)</span>
             </div>
+          </div>
+        </div>
+
+        {/* Popular Corridors Quick Selection (Requirement 4) */}
+        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-2">
+          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Popular EV Corridors:</span>
+          <div className="flex flex-wrap gap-2 text-xs">
+            <button
+              type="button"
+              onClick={() => { setFrom('Salem'); setTo('Coimbatore'); setBatterySoc(62); }}
+              className={`px-3 py-1.5 rounded-xl font-bold border transition-all cursor-pointer ${
+                from === 'Salem' && to === 'Coimbatore'
+                  ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                  : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+              }`}
+            >
+              Salem → Coimbatore (142 km)
+            </button>
+            <button
+              type="button"
+              onClick={() => { setFrom('Chennai'); setTo('Coimbatore'); setBatterySoc(85); }}
+              className={`px-3 py-1.5 rounded-xl font-bold border transition-all cursor-pointer ${
+                from === 'Chennai' && to === 'Coimbatore'
+                  ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                  : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+              }`}
+            >
+              Chennai → Coimbatore (510 km)
+            </button>
+            <button
+              type="button"
+              onClick={() => { setFrom('Bangalore'); setTo('Salem'); setBatterySoc(70); }}
+              className={`px-3 py-1.5 rounded-xl font-bold border transition-all cursor-pointer ${
+                from === 'Bangalore' && to === 'Salem'
+                  ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                  : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+              }`}
+            >
+              Bangalore → Salem (204 km)
+            </button>
           </div>
         </div>
 
@@ -131,7 +175,7 @@ export const PlanTripPage: React.FC = () => {
             <Card variant="solid" className="space-y-4 bg-white border-slate-200 shadow-xs">
               <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2 border-b border-slate-200 pb-3">
                 <MapPin className="w-4 h-4 text-emerald-600" />
-                <span>1. Route Parameters</span>
+                <span>1. Route & Battery Parameters</span>
               </h3>
 
               {error && (
@@ -141,6 +185,28 @@ export const PlanTripPage: React.FC = () => {
               )}
 
               <div className="space-y-3">
+                {/* Battery SOC Slider (Requirement 4) */}
+                <div className="space-y-1.5 p-3 rounded-xl bg-slate-50 border border-slate-200">
+                  <div className="flex items-center justify-between text-xs">
+                    <label htmlFor="battery-soc-slider" className="font-bold text-slate-700">Current Battery SOC</label>
+                    <span className="font-extrabold text-emerald-700 text-sm font-mono">{batterySoc}%</span>
+                  </div>
+                  <input
+                    id="battery-soc-slider"
+                    type="range"
+                    min="10"
+                    max="100"
+                    value={batterySoc}
+                    onChange={(e) => setBatterySoc(Number(e.target.value))}
+                    className="w-full accent-emerald-600 cursor-pointer"
+                  />
+                  <div className="flex justify-between text-[10px] text-slate-400 font-mono">
+                    <span>10% Reserve</span>
+                    <span>50% Mid</span>
+                    <span>100% Full</span>
+                  </div>
+                </div>
+
                 <div className="space-y-1">
                   <label htmlFor="origin-input" className="text-xs font-bold text-slate-700 block">From (Origin)</label>
                   <div className="flex items-center gap-2 bg-slate-50 p-3 rounded-xl border border-slate-200 focus-within:border-emerald-600 transition-colors">
@@ -151,7 +217,7 @@ export const PlanTripPage: React.FC = () => {
                       value={from}
                       onChange={(e) => setFrom(e.target.value)}
                       className="bg-transparent text-sm font-bold text-slate-900 w-full outline-none"
-                      placeholder="e.g. Chennai"
+                      placeholder="e.g. Salem"
                       required
                     />
                   </div>
@@ -261,9 +327,8 @@ export const PlanTripPage: React.FC = () => {
                     onChange={(e) => setTraffic(e.target.value as TrafficCondition)}
                     className="w-full bg-slate-50 text-xs font-bold text-slate-900 p-2.5 rounded-xl border border-slate-200 outline-none focus:border-emerald-600"
                   >
-                    <option value="normal">Normal (0%)</option>
-                    <option value="moderate">Moderate (+5%)</option>
-                    <option value="heavy">Heavy (+10%)</option>
+                    <option value="normal">Normal Traffic (0%)</option>
+                    <option value="heavy">Heavy Traffic (+15% drain)</option>
                   </select>
                 </div>
 
@@ -274,22 +339,22 @@ export const PlanTripPage: React.FC = () => {
                     onChange={(e) => setWeather(e.target.value as WeatherCondition)}
                     className="w-full bg-slate-50 text-xs font-bold text-slate-900 p-2.5 rounded-xl border border-slate-200 outline-none focus:border-blue-600"
                   >
-                    <option value="normal">Normal (0%)</option>
-                    <option value="rain">Rain (+4%)</option>
-                    <option value="extreme">Extreme (+8%)</option>
+                    <option value="normal">Clear Weather</option>
+                    <option value="rain">Rain / Wet Asphalt (+8%)</option>
+                    <option value="extreme">Hot Climate (35°C+)</option>
                   </select>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700 block">Road Condition</label>
+                  <label className="text-xs font-bold text-slate-700 block">Cabin Climate Control</label>
                   <select
-                    value={road}
-                    onChange={(e) => setRoad(e.target.value as RoadCondition)}
-                    className="w-full bg-slate-50 text-xs font-bold text-slate-900 p-2.5 rounded-xl border border-slate-200 outline-none focus:border-amber-600"
+                    value={cabinAc}
+                    onChange={(e) => setCabinAc(e.target.value as 'active' | 'off' | 'auto')}
+                    className="w-full bg-slate-50 text-xs font-bold text-slate-900 p-2.5 rounded-xl border border-slate-200 outline-none focus:border-emerald-600"
                   >
-                    <option value="good">Good (0%)</option>
-                    <option value="congested">Congested (+3%)</option>
-                    <option value="poor">Poor (+6%)</option>
+                    <option value="auto">Auto 22°C (Optimal)</option>
+                    <option value="active">AC Active (Max Cool)</option>
+                    <option value="off">AC Off (Eco Range)</option>
                   </select>
                 </div>
               </div>

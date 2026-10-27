@@ -2,11 +2,32 @@ import type { RouteData } from '../types';
 
 export const MOCK_ROUTES: RouteData[] = [
   {
+    origin: 'Salem',
+    destination: 'Coimbatore',
+    distanceKm: 142,
+    travelTimeText: '3h 20m',
+    stops: ['Zeon Charging Hub - Salem Highway']
+  },
+  {
     origin: 'Chennai',
     destination: 'Coimbatore',
-    distanceKm: 180,
-    travelTimeText: '2h 45m',
-    stops: ['Salem Charging Hub']
+    distanceKm: 510,
+    travelTimeText: '8h 30m',
+    stops: ['Villupuram Fast Hub', 'Salem Charging Hub']
+  },
+  {
+    origin: 'Bangalore',
+    destination: 'Salem',
+    distanceKm: 204,
+    travelTimeText: '3h 25m',
+    stops: ['Krishnagiri Superfast Hub']
+  },
+  {
+    origin: 'Coimbatore',
+    destination: 'Ooty Nilgiris',
+    distanceKm: 88,
+    travelTimeText: '2h 30m',
+    stops: ['Mettupalayam Gateway EV Hub']
   },
   {
     origin: 'Chennai',
@@ -16,24 +37,10 @@ export const MOCK_ROUTES: RouteData[] = [
     stops: ['Vellore Fast Charger', 'Krishnagiri Rest Stop']
   },
   {
-    origin: 'Chennai',
-    destination: 'Pondicherry',
-    distanceKm: 150,
-    travelTimeText: '3h 10m',
-    stops: ['ECR Smart Hub']
-  },
-  {
-    origin: 'Coimbatore',
-    destination: 'Kochi',
-    distanceKm: 190,
-    travelTimeText: '4h 30m',
-    stops: ['Palakkad EV Hub']
-  },
-  {
     origin: 'Bengaluru',
     destination: 'Mysuru',
     distanceKm: 145,
-    travelTimeText: '3h 00m',
+    travelTimeText: '2h 40m',
     stops: ['Mandya Charger']
   }
 ];

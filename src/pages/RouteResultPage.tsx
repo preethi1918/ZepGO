@@ -30,6 +30,43 @@ export const RouteResultPage: React.FC = () => {
 
   const [primaryCharger, setPrimaryCharger] = useState<Charger>(() => storage.getPrimaryCharger());
   const [backupCharger, setBackupCharger] = useState<Charger>(() => storage.getBackupCharger());
+  const [selectedRouteIndex, setSelectedRouteIndex] = useState(0);
+
+  const comparisonRoutes = [
+    {
+      name: 'Fastest Route via NH544 Expressway',
+      tag: 'FASTEST ROUTE',
+      distanceKm: 142,
+      eta: '3h 20m',
+      energyKwh: 22.46,
+      arrivalSoc: '6.5%',
+      chargingStops: '1 stop (Zeon Salem)',
+      tollCost: '₹215',
+      riskLevel: 'LOW RISK'
+    },
+    {
+      name: 'Energy Efficient Route via Tiruchengode',
+      tag: 'ENERGY EFFICIENT ROUTE',
+      distanceKm: 149,
+      eta: '3h 40m',
+      energyKwh: 23.61,
+      arrivalSoc: '3.7%',
+      chargingStops: '1 stop (Sankari Hub)',
+      tollCost: '₹110',
+      riskLevel: 'MEDIUM RISK'
+    },
+    {
+      name: 'Charging Safe Route via Erode Bypass',
+      tag: 'CHARGING SAFE ROUTE',
+      distanceKm: 145,
+      eta: '3h 30m',
+      energyKwh: 22.28,
+      arrivalSoc: '7.0%',
+      chargingStops: '1 stop (Tata Power Avinashi)',
+      tollCost: '₹215',
+      riskLevel: 'LOW RISK'
+    }
+  ];
 
   const [result, setResult] = useState<TripCalculationResult | null>(() => {
     try {
@@ -144,6 +181,114 @@ export const RouteResultPage: React.FC = () => {
             >
               Start Live Journey
             </Button>
+          </div>
+        </div>
+
+        {/* ROUTE COMPARISON (MODULE 9) */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <span className="text-[10px] font-extrabold text-emerald-600 uppercase tracking-widest block">AI MULTI-CORRIDOR SELECTION</span>
+              <h2 className="text-xl font-black text-slate-900">Route Comparison & Optimization</h2>
+            </div>
+            <span className="text-xs text-slate-500 font-medium hidden sm:inline">Select a corridor to sync real-time telemetry</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {comparisonRoutes.map((cr, idx) => {
+              const isSelected = selectedRouteIndex === idx;
+              return (
+                <div
+                  key={cr.tag}
+                  onClick={() => setSelectedRouteIndex(idx)}
+                  className={`cursor-pointer rounded-2xl p-5 transition-all duration-200 relative flex flex-col justify-between ${
+                    isSelected
+                      ? 'border-2 border-emerald-500 bg-emerald-50/30 shadow-md ring-1 ring-emerald-500/20'
+                      : 'border border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm'
+                  }`}
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between gap-2">
+                      <span
+                        className={`text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full tracking-wide ${
+                          idx === 0
+                            ? 'bg-blue-100 text-blue-800'
+                            : idx === 1
+                            ? 'bg-emerald-100 text-emerald-800'
+                            : 'bg-purple-100 text-purple-800'
+                        }`}
+                      >
+                        {cr.tag}
+                      </span>
+                      {isSelected ? (
+                        <span className="flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-full">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Selected
+                        </span>
+                      ) : (
+                        <span className="text-[10px] font-bold text-slate-400">Click to Select</span>
+                      )}
+                    </div>
+
+                    <div>
+                      <h4 className="text-sm font-black text-slate-900 leading-snug">{cr.name}</h4>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2.5 pt-2 border-t border-slate-100 text-xs">
+                      <div className="bg-slate-50/80 p-2 rounded-xl">
+                        <span className="text-[10px] text-slate-400 block font-semibold uppercase">Distance</span>
+                        <span className="text-sm font-black text-slate-900">{cr.distanceKm} km</span>
+                      </div>
+                      <div className="bg-slate-50/80 p-2 rounded-xl">
+                        <span className="text-[10px] text-slate-400 block font-semibold uppercase">ETA</span>
+                        <span className="text-sm font-black text-slate-900">{cr.eta}</span>
+                      </div>
+                      <div className="bg-slate-50/80 p-2 rounded-xl">
+                        <span className="text-[10px] text-slate-400 block font-semibold uppercase">Predicted Energy</span>
+                        <span className="text-sm font-black text-slate-900">{cr.energyKwh} kWh</span>
+                      </div>
+                      <div className="bg-slate-50/80 p-2 rounded-xl">
+                        <span className="text-[10px] text-slate-400 block font-semibold uppercase">Arrival SOC</span>
+                        <span className="text-sm font-black text-emerald-700">{cr.arrivalSoc}</span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5 pt-2 text-[11px] text-slate-600 border-t border-slate-100">
+                      <div className="flex items-center justify-between">
+                        <span className="font-medium text-slate-500">Charging Stops:</span>
+                        <span className="font-bold text-slate-800">{cr.chargingStops}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="font-medium text-slate-500">Tolls:</span>
+                        <span className="font-bold text-slate-800">{cr.tollCost}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="font-medium text-slate-500">Risk Assessment:</span>
+                        <span className={`font-extrabold ${cr.riskLevel.includes('LOW') ? 'text-emerald-700' : 'text-amber-700'}`}>
+                          {cr.riskLevel}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-4">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedRouteIndex(idx);
+                      }}
+                      className={`w-full py-2 px-3 rounded-xl text-xs font-bold transition-all ${
+                        isSelected
+                          ? 'bg-emerald-600 text-white shadow-sm'
+                          : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                      }`}
+                    >
+                      {isSelected ? '✓ Active Route Selected' : 'Choose This Route'}
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 

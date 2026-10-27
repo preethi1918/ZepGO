@@ -7,19 +7,62 @@ const VEHICLE_KEY = 'zepgo_vehicle_data';
 const PRIMARY_CHARGER_KEY = 'zepgo_primary_charger';
 const BACKUP_CHARGER_KEY = 'zepgo_backup_charger';
 
-export const DEFAULT_VEHICLE: Vehicle = {
-  id: 'veh_default_01',
-  brand: 'Tesla',
-  model: 'Model Y Long Range',
-  soc: 82,
-  batteryCapacity: 75,
-  efficiency: 155,
-  connectorType: 'CCS2',
-  maxChargingSpeed: 250,
-  status: 'Active',
-  currentLocation: 'Chennai',
-  vehicleStatus: 'Normal'
-};
+export const CANONICAL_GARAGE: Vehicle[] = [
+  {
+    id: 'veh_nexon_max',
+    brand: 'Tata',
+    model: 'Nexon EV Max',
+    soc: 62,
+    batteryCapacity: 40.5,
+    efficiency: 147, // 6.8 km/kWh
+    connectorType: 'CCS2',
+    maxChargingSpeed: 120,
+    status: 'Active',
+    currentLocation: 'Salem',
+    vehicleStatus: 'Normal'
+  },
+  {
+    id: 'veh_mg_zs',
+    brand: 'MG',
+    model: 'ZS EV Exclusive',
+    soc: 75,
+    batteryCapacity: 50.3,
+    efficiency: 156, // 6.4 km/kWh
+    connectorType: 'CCS2',
+    maxChargingSpeed: 80,
+    status: 'Connected',
+    currentLocation: 'Coimbatore',
+    vehicleStatus: 'Normal'
+  },
+  {
+    id: 'veh_xuv400',
+    brand: 'Mahindra',
+    model: 'XUV400 EL',
+    soc: 55,
+    batteryCapacity: 39.4,
+    efficiency: 154, // 6.5 km/kWh
+    connectorType: 'CCS2',
+    maxChargingSpeed: 50,
+    status: 'Idle',
+    currentLocation: 'Chennai',
+    vehicleStatus: 'Normal'
+  },
+  {
+    id: 'veh_ioniq5',
+    brand: 'Hyundai',
+    model: 'Ioniq 5 AWD',
+    soc: 88,
+    batteryCapacity: 72.6,
+    efficiency: 169, // 5.9 km/kWh
+    connectorType: 'CCS2',
+    maxChargingSpeed: 350,
+    status: 'Idle',
+    currentLocation: 'Bangalore',
+    vehicleStatus: 'Normal'
+  }
+];
+
+export const DEFAULT_VEHICLE: Vehicle = CANONICAL_GARAGE[0];
 
 export const calculateEstimatedRange = (batteryCapacity: number, soc: number, efficiency: number): number => {
   if (!efficiency || efficiency <= 0) return 0;
@@ -124,6 +167,54 @@ export const storage = {
       localStorage.setItem(BACKUP_CHARGER_KEY, JSON.stringify(charger));
     } catch (e) {
       console.error('Failed to save backup charger', e);
+    }
+  },
+
+  getGarageVehicles: (): Vehicle[] => {
+    try {
+      const data = localStorage.getItem('zepgo_garage_fleet');
+      if (data) return JSON.parse(data);
+      localStorage.setItem('zepgo_garage_fleet', JSON.stringify(CANONICAL_GARAGE));
+      return CANONICAL_GARAGE;
+    } catch {
+      return CANONICAL_GARAGE;
+    }
+  },
+
+  setGarageVehicles: (vehicles: Vehicle[]): void => {
+    try {
+      localStorage.setItem('zepgo_garage_fleet', JSON.stringify(vehicles));
+    } catch (e) {
+      console.error('Failed to save garage fleet', e);
+    }
+  },
+
+  setActiveVehicle: (vehicleId: string): Vehicle => {
+    const list = storage.getGarageVehicles();
+    const updated = list.map(v => ({
+      ...v,
+      status: (v.id === vehicleId ? 'Active' : 'Idle') as 'Active' | 'Connected' | 'Idle'
+    }));
+    storage.setGarageVehicles(updated);
+    const selected = updated.find(v => v.id === vehicleId) || updated[0];
+    storage.setVehicleData(selected);
+    return selected;
+  },
+
+  getSafetyReserve: (): number => {
+    try {
+      const val = localStorage.getItem('zepgo_safety_reserve');
+      return val ? Number(val) : 18; // default 18%
+    } catch {
+      return 18;
+    }
+  },
+
+  setSafetyReserve: (reserve: number): void => {
+    try {
+      localStorage.setItem('zepgo_safety_reserve', String(reserve));
+    } catch (e) {
+      console.error('Failed to save safety reserve', e);
     }
   },
 

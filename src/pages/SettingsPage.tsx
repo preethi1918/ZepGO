@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import { Settings, ShieldCheck, Bell, Globe, Save, CheckCircle2, CloudOff } from 'lucide-react';
+import { Settings, ShieldCheck, Bell, Globe, Save, CheckCircle2, CloudOff, Compass } from 'lucide-react';
 import { AppLayout } from '../layouts/AppLayout';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { PageTitle, PageSubtitle } from '../components/ui/PageTitle';
+import { storage } from '../utils/storage';
 
 export const SettingsPage: React.FC = () => {
-  const [reservePercent, setReservePercent] = useState(15);
+  const [reservePercent, setReservePercent] = useState(() => storage.getSafetyReserve());
   const [units, setUnits] = useState<'km' | 'mi'>('km');
   const [preferredConnector, setPreferredConnector] = useState('CCS2');
+  const [routePreference, setRoutePreference] = useState<'Fastest Route' | 'Energy Efficient' | 'Cheapest Tolls' | 'Safety First'>('Fastest Route');
+  const [chargingPreference, setChargingPreference] = useState<'Fastest Chargers' | 'Most Cost Effective' | 'Minimum Waiting & Verified Amenities'>('Fastest Chargers');
   const [notifications, setNotifications] = useState({
     batteryAlerts: true,
     chargerQueueAlerts: true,
@@ -21,11 +24,14 @@ export const SettingsPage: React.FC = () => {
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
+    storage.setSafetyReserve(reservePercent);
     try {
       localStorage.setItem('zepgo_settings', JSON.stringify({
         reservePercent,
         units,
         preferredConnector,
+        routePreference,
+        chargingPreference,
         notifications,
         offlineCacheMode
       }));
@@ -76,7 +82,7 @@ export const SettingsPage: React.FC = () => {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <label htmlFor="reserve-slider" className="text-xs font-semibold text-slate-700">Safety Buffer Reserve</label>
-                  <span className="text-sm font-extrabold text-emerald-700 font-mono">{reservePercent}% (Default 15%)</span>
+                  <span className="text-sm font-extrabold text-emerald-700 font-mono">{reservePercent}% (Default 18%)</span>
                 </div>
 
                 <input
@@ -91,8 +97,47 @@ export const SettingsPage: React.FC = () => {
                 />
 
                 <p className="text-[11px] text-slate-500 leading-relaxed">
-                  ZepGO will flag any journey that drops arrival battery below this reserve as requiring a charger stop.
+                  ZepGO will flag any journey that drops arrival battery below this reserve (default 18% + 5% margin) as requiring a charger stop.
                 </p>
+              </div>
+            </Card>
+
+            {/* Trip & Charging Preferences (Module 30) */}
+            <Card variant="solid" className="space-y-4">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2 border-b border-slate-200 pb-3">
+                <Compass className="w-4 h-4 text-emerald-600" />
+                <span>2. Route & Charging Preferences</span>
+              </h3>
+
+              <div className="space-y-3">
+                <div className="space-y-1">
+                  <label htmlFor="route-pref-select" className="text-xs font-semibold text-slate-700 block">Default Route Preference</label>
+                  <select
+                    id="route-pref-select"
+                    value={routePreference}
+                    onChange={(e) => setRoutePreference(e.target.value as any)}
+                    className="w-full bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs font-bold text-slate-900 outline-none focus:border-emerald-500 focus:bg-white"
+                  >
+                    <option value="Fastest Route">Fastest Route (Expressways & High-Speed Corridors)</option>
+                    <option value="Energy Efficient">Energy Efficient (Minimum kWh & Elevation Penalties)</option>
+                    <option value="Cheapest Tolls">Cheapest Tolls (Low Toll Cost)</option>
+                    <option value="Safety First">Safety First (Maximum High-Power Charging Buffer)</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1">
+                  <label htmlFor="charging-pref-select" className="text-xs font-semibold text-slate-700 block">Charging Preference</label>
+                  <select
+                    id="charging-pref-select"
+                    value={chargingPreference}
+                    onChange={(e) => setChargingPreference(e.target.value as any)}
+                    className="w-full bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs font-bold text-slate-900 outline-none focus:border-emerald-500 focus:bg-white"
+                  >
+                    <option value="Fastest Chargers">Fastest Chargers (60 kW - 120 kW+ DC)</option>
+                    <option value="Most Cost Effective">Most Cost Effective (Lowest ₹/kWh Rate)</option>
+                    <option value="Minimum Waiting & Verified Amenities">Minimum Waiting & Verified Amenities (Restrooms, Food)</option>
+                  </select>
+                </div>
               </div>
             </Card>
 

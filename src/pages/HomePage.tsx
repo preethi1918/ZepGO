@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AppLayout } from '../layouts/AppLayout';
 import { RouteMap } from '../components/dashboard/RouteMap';
 import { FeatureCard } from '../components/dashboard/FeatureCard';
@@ -21,7 +22,10 @@ import {
   AlertTriangle,
   Flame,
   CloudRain,
-  Mountain
+  Mountain,
+  History,
+  BarChart3,
+  LifeBuoy
 } from 'lucide-react';
 import { storage } from '../utils/storage';
 import { findRoute } from '../data/mockRoutes';
@@ -30,18 +34,20 @@ import type { DynamicDecisionResult } from '../utils/batteryEngine';
 import type { RoadCondition, TrafficCondition, WeatherCondition } from '../types';
 
 export const HomePage: React.FC = () => {
+  const navigate = useNavigate();
+
   // UX Workflow State: false = Trip Planning Input screen, true = Journey Results & Live Map screen
   const [hasPlannedJourney, setHasPlannedJourney] = useState<boolean>(false);
   const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
 
-  // Form Inputs
-  const [origin, setOrigin] = useState<string>('Chennai');
+  // Form Inputs (Default Scenario: Salem -> Coimbatore, Tata Nexon EV Max, 62% SOC)
+  const [origin, setOrigin] = useState<string>('Salem');
   const [destination, setDestination] = useState<string>('Coimbatore');
-  const [destinationDistanceKm, setDestinationDistanceKm] = useState<number>(180);
-  const [batterySoc, setBatterySoc] = useState<number>(72);
-  const [vehicleModel, setVehicleModel] = useState<string>('Tata Nexon EV');
+  const [destinationDistanceKm, setDestinationDistanceKm] = useState<number>(142);
+  const [batterySoc, setBatterySoc] = useState<number>(62);
+  const [vehicleModel, setVehicleModel] = useState<string>('Tata Nexon EV Max');
   const [batteryCapacity, setBatteryCapacity] = useState<number>(40.5);
-  const [baseEfficiency, setBaseEfficiency] = useState<number>(155);
+  const [baseEfficiency, setBaseEfficiency] = useState<number>(147);
   const [connectorType, setConnectorType] = useState<string>('CCS2');
   const [viaStop, setViaStop] = useState<string>('');
 
@@ -168,7 +174,82 @@ export const HomePage: React.FC = () => {
         {/* STEP 1: INITIAL SCREEN — TRIP PLANNING INPUT (When hasPlannedJourney === false) */}
         {/* ========================================================================= */}
         {!hasPlannedJourney ? (
-          <div className="space-y-8 animate-in fade-in duration-300">
+          <div className="space-y-6 animate-in fade-in duration-300">
+            {/* TOP GLOBAL NOTIFICATIONS & ALERTS BANNER (Requirement 2) */}
+            <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs shadow-xs">
+              <div className="flex items-center gap-2.5 text-emerald-950 font-semibold">
+                <span className="p-1.5 rounded-xl bg-emerald-600 text-white shrink-0">
+                  <Zap className="w-4 h-4" />
+                </span>
+                <span>
+                  Telemetry Active: <strong>{vehicleModel}</strong> ({batteryCapacity} kWh) • Battery: <strong>{batterySoc}%</strong> • Corridor: <strong>{origin} → {destination}</strong> • Safety Reserve: <strong>18%</strong>
+                </span>
+              </div>
+              <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-[11px] border border-emerald-300 shrink-0">
+                ✓ All EV Systems Nominal
+              </span>
+            </div>
+
+            {/* QUICK ACTIONS BAR (Requirement 2) */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+              <button
+                type="button"
+                onClick={() => navigate('/plan-trip')}
+                className="p-3 bg-white hover:bg-emerald-50/80 rounded-2xl border border-slate-200 hover:border-emerald-300 text-center transition-all shadow-xs group cursor-pointer"
+              >
+                <MapPin className="w-5 h-5 text-emerald-600 mx-auto mb-1 group-hover:scale-110 transition-transform" />
+                <span className="text-xs font-bold text-slate-800 block">Plan Trip</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate('/chargers')}
+                className="p-3 bg-white hover:bg-emerald-50/80 rounded-2xl border border-slate-200 hover:border-emerald-300 text-center transition-all shadow-xs group cursor-pointer"
+              >
+                <Zap className="w-5 h-5 text-blue-600 mx-auto mb-1 group-hover:scale-110 transition-transform" />
+                <span className="text-xs font-bold text-slate-800 block">Find Charger</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate('/live-journey')}
+                className="p-3 bg-white hover:bg-emerald-50/80 rounded-2xl border border-slate-200 hover:border-emerald-300 text-center transition-all shadow-xs group cursor-pointer"
+              >
+                <Navigation className="w-5 h-5 text-emerald-700 mx-auto mb-1 group-hover:scale-110 transition-transform" />
+                <span className="text-xs font-bold text-slate-800 block">Navigation</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate('/charging-session')}
+                className="p-3 bg-white hover:bg-emerald-50/80 rounded-2xl border border-slate-200 hover:border-emerald-300 text-center transition-all shadow-xs group cursor-pointer"
+              >
+                <Battery className="w-5 h-5 text-amber-500 mx-auto mb-1 group-hover:scale-110 transition-transform" />
+                <span className="text-xs font-bold text-slate-800 block">Session</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate('/history')}
+                className="p-3 bg-white hover:bg-emerald-50/80 rounded-2xl border border-slate-200 hover:border-emerald-300 text-center transition-all shadow-xs group cursor-pointer"
+              >
+                <History className="w-5 h-5 text-slate-600 mx-auto mb-1 group-hover:scale-110 transition-transform" />
+                <span className="text-xs font-bold text-slate-800 block">Trip History</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate('/analytics')}
+                className="p-3 bg-white hover:bg-emerald-50/80 rounded-2xl border border-slate-200 hover:border-emerald-300 text-center transition-all shadow-xs group cursor-pointer"
+              >
+                <BarChart3 className="w-5 h-5 text-purple-600 mx-auto mb-1 group-hover:scale-110 transition-transform" />
+                <span className="text-xs font-bold text-slate-800 block">Analytics</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate('/assistance')}
+                className="p-3 bg-rose-50 hover:bg-rose-100 rounded-2xl border border-rose-200 text-center transition-all shadow-xs group cursor-pointer"
+              >
+                <LifeBuoy className="w-5 h-5 text-rose-600 mx-auto mb-1 group-hover:scale-110 transition-transform" />
+                <span className="text-xs font-bold text-rose-700 block">SOS Help</span>
+              </button>
+            </div>
+
             {/* HERO HEADER */}
             <div className="text-center max-w-3xl mx-auto space-y-3 pt-2">
               <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold">

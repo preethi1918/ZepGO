@@ -16,6 +16,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({ onToggleSidebar }) => {
   const navigate = useNavigate();
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [isOnline, setIsOnline] = useState(true);
   const [showDemoController, setShowDemoController] = useState(false);
   const [vehicle, setVehicle] = useState<Vehicle>(() => storage.getVehicleData());
@@ -106,16 +107,62 @@ export const TopHeader: React.FC<TopHeaderProps> = ({ onToggleSidebar }) => {
           <span className="hidden sm:inline">Demo Controller</span>
         </button>
 
-        {/* Notification Bell Icon */}
+        {/* Permanent Emergency SOS Button (Requirement 32) */}
         <button
-          onClick={() => alert('Notifications: All telemetry sensors operational. Battery reserve ok.')}
-          className="relative p-2.5 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          aria-label="Notifications"
-          title="Notifications"
+          onClick={() => navigate('/assistance')}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-black text-xs shadow-xs transition-all animate-pulse"
+          title="Emergency Roadside, Battery Critical & Medical Assistance"
         >
-          <Bell className="w-4 h-4" />
-          <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-white" />
+          <Shield className="w-3.5 h-3.5 text-white" />
+          <span>SOS</span>
         </button>
+
+        {/* Notification Bell Icon with Interactive Dropdown (Requirement 33) */}
+        <div className="relative">
+          <button
+            onClick={() => setNotificationsOpen(!notificationsOpen)}
+            className="relative p-2.5 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            aria-label="Notifications"
+            title="Notifications Center"
+          >
+            <Bell className="w-4 h-4" />
+            <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-white" />
+          </button>
+
+          {notificationsOpen && (
+            <div className="absolute right-0 mt-2 w-80 bg-white border border-slate-200 rounded-2xl shadow-2xl py-3 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+              <div className="px-4 pb-2 border-b border-slate-100 flex items-center justify-between">
+                <span className="text-xs font-bold text-slate-900">Live Journey Notifications</span>
+                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                  3 New
+                </span>
+              </div>
+              <div className="max-h-64 overflow-y-auto divide-y divide-slate-100 text-xs">
+                <div className="p-3 hover:bg-slate-50 transition-colors">
+                  <div className="flex items-center gap-1.5 font-bold text-amber-700 mb-0.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                    <span>Charging Recommended</span>
+                  </div>
+                  <p className="text-slate-500 text-[11px]">Arrival battery margin below 18% reserve. Zeon Hub Salem sequenced.</p>
+                </div>
+                <div className="p-3 hover:bg-slate-50 transition-colors">
+                  <div className="flex items-center gap-1.5 font-bold text-blue-700 mb-0.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                    <span>Weather Alert: High Temp (32°C)</span>
+                  </div>
+                  <p className="text-slate-500 text-[11px]">Cabin AC thermal draw modeled. Range recalibrated.</p>
+                </div>
+                <div className="p-3 hover:bg-slate-50 transition-colors">
+                  <div className="flex items-center gap-1.5 font-bold text-emerald-700 mb-0.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                    <span>Charger Ready</span>
+                  </div>
+                  <p className="text-slate-500 text-[11px]">3 of 4 ports available at Zeon Hub. Zero queue anticipated.</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* User Profile Dropdown */}
         <div className="relative" ref={dropdownRef}>
