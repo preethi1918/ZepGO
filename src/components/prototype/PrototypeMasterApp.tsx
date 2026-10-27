@@ -14,7 +14,6 @@ import { PreferencesScreen } from '../../screens/prototype/PreferencesScreen';
 import { AiRouteAnalysisScreen } from '../../screens/prototype/AiRouteAnalysisScreen';
 import { RouteResultsScreen } from '../../screens/prototype/RouteResultsScreen';
 import { RouteComparisonScreen } from '../../screens/prototype/RouteComparisonScreen';
-import { LiveNavigationMapScreen } from '../../screens/prototype/LiveNavigationMapScreen';
 import { StationDetailsScreen } from '../../screens/prototype/StationDetailsScreen';
 import { ChargerRiskAlertScreen } from '../../screens/prototype/ChargerRiskAlertScreen';
 import { BackupChargerSelectionScreen } from '../../screens/prototype/BackupChargerSelectionScreen';
@@ -29,16 +28,11 @@ import { ProfileSettingsScreen } from '../../screens/prototype/ProfileSettingsSc
 import { SavedPlacesScreen } from '../../screens/prototype/SavedPlacesScreen';
 import { MyVehicleScreen } from '../../screens/prototype/MyVehicleScreen';
 
-import { SmartStopDetectionCard } from '../smartStop/SmartStopDetectionCard';
-import { RecommendedStopScreen } from '../smartStop/RecommendedStopScreen';
-import { CafeDuringChargingScreen } from '../smartStop/CafeDuringChargingScreen';
-import { ChargingCafeCombinedScreen } from '../smartStop/ChargingCafeCombinedScreen';
-import { AddStopSelectionMenu } from '../smartStop/AddStopSelectionMenu';
-import { SmartStopPreferencesScreen } from '../smartStop/SmartStopPreferencesScreen';
-import { RouteUpdatedScreen } from '../smartStop/RouteUpdatedScreen';
-import { AlternativeStopComparisonScreen } from '../smartStop/AlternativeStopComparisonScreen';
-import { StopDetailsDeepDiveScreen } from '../smartStop/StopDetailsDeepDiveScreen';
-import { SmartStopLiveNavCard } from '../smartStop/SmartStopLiveNavCard';
+import { Screen1RoutePlanning } from '../smartStop/Screen1RoutePlanning';
+import { Screen2Recommendation } from '../smartStop/Screen2Recommendation';
+import { Screen3Sync } from '../smartStop/Screen3Sync';
+import { Screen4RouteUpdated } from '../smartStop/Screen4RouteUpdated';
+import { Screen5LiveNav } from '../smartStop/Screen5LiveNav';
 
 export const PrototypeMasterApp: React.FC = () => {
   const [currentScreenIndex, setCurrentScreenIndex] = useState(0);
@@ -181,88 +175,30 @@ export const PrototypeMasterApp: React.FC = () => {
           />
         );
       case 10:
-        return (
-          <div className="p-4 flex-1 flex items-center justify-center">
-            <SmartStopDetectionCard
-              onViewRecommendation={() => setCurrentScreenIndex(11)}
-              onViewAlternatives={() => setCurrentScreenIndex(17)}
-            />
-          </div>
-        );
+        return <Screen1RoutePlanning onViewSmartStop={() => setCurrentScreenIndex(11)} />;
       case 11:
         return (
-          <RecommendedStopScreen
-            onAddStop={() => setCurrentScreenIndex(15)}
-            onViewAlternatives={() => setCurrentScreenIndex(17)}
-            onBack={() => setCurrentScreenIndex(8)}
+          <Screen2Recommendation
+            onUseThisStop={() => setCurrentScreenIndex(12)}
+            onBack={() => setCurrentScreenIndex(10)}
           />
         );
       case 12:
         return (
-          <CafeDuringChargingScreen
-            onSelectCafe={() => setCurrentScreenIndex(13)}
-            onClose={() => setCurrentScreenIndex(11)}
+          <Screen3Sync
+            onAddSmartStop={() => setCurrentScreenIndex(13)}
+            onBack={() => setCurrentScreenIndex(11)}
           />
         );
       case 13:
         return (
-          <ChargingCafeCombinedScreen
-            onConfirmUnifiedStop={() => setCurrentScreenIndex(15)}
+          <Screen4RouteUpdated
+            onStartNavigation={() => setCurrentScreenIndex(14)}
             onBack={() => setCurrentScreenIndex(12)}
           />
         );
       case 14:
-        return (
-          <AddStopSelectionMenu
-            onSelectCategory={() => setCurrentScreenIndex(11)}
-            onBack={() => setCurrentScreenIndex(8)}
-          />
-        );
-      case 15:
-        return (
-          <SmartStopPreferencesScreen
-            onSavePreferences={() => setCurrentScreenIndex(16)}
-            onBack={() => setCurrentScreenIndex(11)}
-          />
-        );
-      case 16:
-        return (
-          <RouteUpdatedScreen
-            onStartNavigation={() => setCurrentScreenIndex(19)}
-            onViewRouteDetails={() => setCurrentScreenIndex(18)}
-          />
-        );
-      case 17:
-        return (
-          <AlternativeStopComparisonScreen
-            onSelectAlternative={() => setCurrentScreenIndex(18)}
-            onBack={() => setCurrentScreenIndex(11)}
-          />
-        );
-      case 18:
-        return (
-          <StopDetailsDeepDiveScreen
-            onConfirmStop={() => setCurrentScreenIndex(16)}
-            onBack={() => setCurrentScreenIndex(11)}
-          />
-        );
-      case 19:
-        return (
-          <LiveNavigationMapScreen
-            onArriveAtStation={() => setCurrentScreenIndex(24)}
-            onTriggerRiskAlert={() => setCurrentScreenIndex(22)}
-            onEndTrip={() => setCurrentScreenIndex(25)}
-          />
-        );
-      case 20:
-        return (
-          <div className="flex-1 bg-[#0F172A] p-4 flex flex-col justify-end">
-            <SmartStopLiveNavCard
-              onOpenFullRecommendation={() => setCurrentScreenIndex(11)}
-              onDismiss={() => setCurrentScreenIndex(19)}
-            />
-          </div>
-        );
+        return <Screen5LiveNav onResetFlow={() => setCurrentScreenIndex(10)} />;
       case 21:
         return (
           <StationDetailsScreen

@@ -1,0 +1,79 @@
+[
+  {
+    "id": "trip-001",
+    "user_id": "usr-preethi",
+    "date": "2026-03-18",
+    "start_location": "Chennai",
+    "destination": "Coimbatore",
+    "vehicle_name": "Tata Nexon EV Max",
+    "distance_km": 510.0,
+    "energy_consumed_kwh": 72.0,
+    "charging_stops": 2,
+    "charging_cost_inr": 850.0,
+    "duration_minutes": 510,
+    "duration_formatted": "8h 30m",
+    "average_efficiency_km_per_kwh": 7.1,
+    "average_speed_kmh": 68.0,
+    "co2_saved_kg": 76.5,
+    "status": "completed",
+    "stops_detail": [
+      {
+        "station_name": "Tata Power EZ Charge - Krishnagiri",
+        "energy_added_kwh": 24.5,
+        "cost_inr": 480.0,
+        "duration_min": 28
+      },
+      {
+        "station_name": "Zeon Fast Charging Hub - Salem",
+        "energy_added_kwh": 18.2,
+        "cost_inr": 370.0,
+        "duration_min": 22
+      }
+    ]
+  },
+  {
+    "id": "trip-002",
+    "user_id": "usr-preethi",
+    "date": "2026-03-05",
+    "start_location": "Bangalore",
+    "destination": "Salem",
+    "vehicle_name": "Tata Nexon EV Max",
+    "distance_km": 204.0,
+    "energy_consumed_kwh": 29.5,
+    "charging_stops": 1,
+    "charging_cost_inr": 320.0,
+    "duration_minutes": 205,
+    "duration_formatted": "3h 25m",
+    "average_efficiency_km_per_kwh": 6.9,
+    "average_speed_kmh": 72.0,
+    "co2_saved_kg": 30.6,
+    "status": "completed",
+    "stops_detail": [
+      {
+        "station_name": "Relux Electric Hub - Dharmapuri",
+        "energy_added_kwh": 16.0,
+        "cost_inr": 320.0,
+        "duration_min": 20
+      }
+    ]
+  },
+  {
+    "id": "trip-003",
+    "user_id": "usr-preethi",
+    "date": "2026-02-21",
+    "start_location": "Coimbatore",
+    "destination": "Ooty Nilgiris",
+    "vehicle_name": "Tata Nexon EV Max",
+    "distance_km": 88.0,
+    "energy_consumed_kwh": 17.2,
+    "charging_stops": 0,
+    "charging_cost_inr": 0.0,
+    "duration_minutes": 150,
+    "duration_formatted": "2h 30m",
+    "average_efficiency_km_per_kwh": 5.1,
+    "average_speed_kmh": 38.0,
+    "co2_saved_kg": 13.2,
+    "status": "completed",
+    "stops_detail": []
+  }
+]

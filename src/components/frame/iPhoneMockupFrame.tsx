@@ -30,41 +30,41 @@ export const IPhoneMockupFrame: React.FC<iPhoneMockupFrameProps> = ({
         <div className="absolute -right-[16px] top-[160px] w-[4px] h-[72px] bg-[#2A342E] rounded-r-md" />
 
         {/* Inner Screen Surface (390x844 view container) */}
-        <div className="relative w-full h-full bg-[#FFFFFF] rounded-[42px] overflow-hidden flex flex-col select-none border border-slate-200/50 shadow-inner">
+        <div className="relative w-full h-full bg-[#0B0F0D] rounded-[42px] overflow-hidden flex flex-col select-none border border-slate-800/80 shadow-inner">
           
           {/* iOS Status Bar & Dynamic Island Header */}
-          <div className="relative z-50 shrink-0 h-[44px] px-6 pt-3 flex items-center justify-between bg-transparent text-[#0B0F0D] font-medium text-[13px] tracking-tight">
+          <div className="relative z-50 shrink-0 h-[44px] px-6 pt-3 flex items-center justify-between bg-[#0B0F0D] text-white font-medium text-[13px] tracking-tight border-b border-slate-800/40">
             {/* Clock Time */}
-            <span className="font-semibold text-xs tracking-tight">{currentTime}</span>
+            <span className="font-semibold text-xs tracking-tight text-white">{currentTime}</span>
 
             {/* Dynamic Island Pill Notch */}
-            <div className="absolute left-1/2 -translate-x-1/2 top-2.5 w-[110px] h-[28px] bg-[#0B0F0D] rounded-full flex items-center justify-between px-3 shadow-sm border border-slate-800/80">
+            <div className="absolute left-1/2 -translate-x-1/2 top-2.5 w-[110px] h-[28px] bg-[#000000] rounded-full flex items-center justify-between px-3 shadow-sm border border-slate-800/80">
               <div className="w-2.5 h-2.5 rounded-full bg-[#1E293B] border border-slate-700/50" />
               <div className="flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#22C55E] animate-pulse" />
-                <span className="text-[9px] font-bold text-slate-300 uppercase tracking-widest">ZEP</span>
+                <span className="text-[9px] font-bold text-[#22C55E] uppercase tracking-widest">ZEP</span>
               </div>
             </div>
 
             {/* Hardware Status Icons */}
-            <div className="flex items-center gap-1.5 text-[#0B0F0D]">
+            <div className="flex items-center gap-1.5 text-white">
               <Signal size={13} className="stroke-[2.5]" />
               <Wifi size={13} className="stroke-[2.5]" />
               <div className="flex items-center gap-1">
                 <span className="text-[10px] font-bold text-[#22C55E]">{batterySoc}%</span>
-                <Battery size={15} className="stroke-[2] text-[#0B0F0D] fill-[#22C55E]" />
+                <Battery size={15} className="stroke-[2] text-white fill-[#22C55E]" />
               </div>
             </div>
           </div>
 
           {/* Screen Content Container */}
-          <div className="flex-1 w-full h-[calc(100%-44px-20px)] overflow-y-auto no-scrollbar relative flex flex-col">
+          <div className="flex-1 w-full h-[calc(100%-44px-20px)] overflow-y-auto no-scrollbar relative flex flex-col bg-[#0B0F0D]">
             {children}
           </div>
 
           {/* iOS Home Indicator Bar */}
-          <div className="shrink-0 h-[20px] w-full flex items-center justify-center bg-transparent z-50">
-            <div className="w-[130px] h-[4px] bg-[#0B0F0D]/80 rounded-full" />
+          <div className="shrink-0 h-[20px] w-full flex items-center justify-center bg-[#0B0F0D] z-50 border-t border-slate-900">
+            <div className="w-[130px] h-[4px] bg-slate-600 rounded-full" />
           </div>
 
           {/* Subtle Screen Gloss & Reflection Overlay */}

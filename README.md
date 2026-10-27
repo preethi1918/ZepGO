@@ -1,150 +1,239 @@
-# ⚡ ZepGO — Premium EV Intelligent Journey Planning & Smart Stop System
+# ⚡ ZepGO – AI-Powered EV Navigation & Charging Intelligence Platform
 
-> **Predictive Charger Availability Upon Arrival • Integrated Driver Rest & Cafe Intelligence • Built for Indian Highways & EVs**
+> **"ZepGO doesn't just tell an EV where to go. It predicts whether the EV can safely get there and intelligently decides where, when and why it should charge."**
 
----
-
-## 🌟 Overview
-
-**ZepGO** is a next-generation intelligent journey planning platform designed specifically for electric vehicle (EV) drivers. Unlike conventional mapping applications that only locate static charger pins, **ZepGO predicts charger reliability and plug occupancy at your exact arrival time** (+30 min / +60 min forecasts). 
-
-ZepGO features an integrated **Smart Stop & Cafe Recommendation engine** that harmonizes driver comfort with EV charging needs—pairing rest breaks, cafes, and amenities to the vehicle's exact charging duration.
+[![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg?style=flat&logo=fastapi)](https://fastapi.tiangolo.com)
+[![React](https://img.shields.io/badge/Frontend-React%2018%20%2B%20TypeScript-61DAFB.svg?style=flat&logo=react)](https://reactjs.org)
+[![TailwindCSS](https://img.shields.io/badge/Styles-Tailwind%20CSS-38B2AC.svg?style=flat&logo=tailwind-css)](https://tailwindcss.com)
+[![XGBoost](https://img.shields.io/badge/ML-XGBoost%20Regressor-EB7F00.svg?style=flat)](https://xgboost.readthedocs.io)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ---
 
-## ✨ Key Differentiators & Features
+## 📖 1. Project Overview & Vision
 
-### 🔮 1. Predictive Charger Reliability (The Core Brain)
-* **Arrival Occupancy Forecasts**: Calculates predicted plug availability (+30m / +60m ahead) using machine learning telemetry, historic queue data, and real-time highway flow.
-* **LOW RISK Confidence Badges**: Displays green **LOW RISK** badges when arrival confidence exceeds 90%.
-* **Automated Backup Rerouting**: Detects high-risk charger congestion ahead and proactively offers 1-tap reroutes to verified backup chargers (e.g. Relux 2.4 km away).
+**ZepGO** is an intelligent electric vehicle navigation and charging intelligence platform engineered to eliminate EV range anxiety. Traditional navigation systems treat electric vehicles like internal combustion engine (ICE) cars—calculating routes based purely on distance or traffic time, and treating EV chargers as static pins on a map. 
 
-### ☕ 2. Contextual Smart Stop & Cafe Recommendations
-* **Synchronized Rest & Charge**: Matches cafe recommendations to the EV's exact charging window (e.g. 24-minute charge at Salem = Saravana Bhavan Cafe + Restroom).
-* **Driver Break Interval Alignment**: Prompts timely rest recommendations based on continuous driving duration and battery SOC.
-* **Unified Stop Gauges**: Visualizes driver break time and battery charging time side-by-side on a synchronized progress ring.
-
-### 🇮🇳 3. Tailored for Indian EVs & Highway Routes
-* **Indian EV Specs**: Pre-configured battery telemetry for **Tata Nexon EV Max (40.5 kWh)**, **MG ZS EV (50.3 kWh)**, **Mahindra XUV400**, and **Hyundai Ioniq 5**.
-* **Realistic Indian Corridors**: Real-world route simulation along the **NH544 highway corridor (Chennai → Vellore → Salem → Coimbatore)**.
-* **Network Integration**: Integrated data for Zeon Charging, Relux Electric, Tata Power EZ Charge, and ChargeZone.
+ZepGO transforms this experience into a vehicle-aware, risk-resilient intelligence platform:
+- It understands your specific EV's battery chemistry, usable pack capacity, and aerodynamic efficiency.
+- It models dynamic real-world factors including vehicle cruising speed, ambient temperature (HVAC load), elevation change, and traffic congestion.
+- It continuously tracks your battery State of Charge (SOC) against a **configurable Safety Reserve (default: 18%)**.
+- It ranks highway charging stations not just by proximity, but by **plug availability upon arrival, charging speed, connector compatibility, cost, and safety margin**.
+- Crucially, it provides transparent explainability through the **"Why This Charger?"** framework, answering **WHAT**, **WHY**, and **IMPACT**.
 
 ---
 
-## 📱 34-Screen Master Interactive Prototype
+## 🚨 2. The Core Problem
 
-ZepGO includes a complete 34-screen interactive mobile prototype rendered in an **iPhone 390x844px presentation frame**, featuring 4 interactive viewing modes:
-
-1. 📱 **Interactive Phone View**: 100% clickable prototype inside an iPhone mockup frame with live status bar & battery telemetry.
-2. 📊 **Figma-Style 34-Screen Flow Board**: Side-by-side presentation board displaying all 34 screens simultaneously.
-3. ☕ **Smart Stop Suite**: Dedicated 10-screen breakdown of the Smart Stop & Cafe feature.
-4. 🎨 **Design System Specs**: Live interactive documentation of design tokens, color scales, typography hierarchy, and UI component standards.
-
----
-
-## 🎨 Visual Design System
-
-| Element | Specification | Hex / Value |
-|---|---|---|
-| **Primary Color** | Deep Black (Text & CTAs) | `#0B0F0D` |
-| **Action & Intelligence** | EV Green (Status & Available) | `#22C55E` |
-| **Light Backgrounds** | Soft Light Green | `#EAF8EF` |
-| **Card Surface** | Pure White | `#FFFFFF` |
-| **Secondary Text** | Slate Grey | `#6B7280` |
-| **Warning / Alerts** | Amber & Crimson (Strictly Warnings) | `#F59E0B` / `#EF4444` |
-| **Border Radius** | Smooth Curved Cards | `16px` – `24px` |
-| **Typography** | Sans-Serif Grid | Inter / System Sans |
+Electric vehicle drivers on highway corridors face 10 critical challenges:
+1. **Range Anxiety**: Fear of depleting the battery pack before reaching a destination.
+2. **Uncertainty of Range Estimates**: Instrument cluster estimates ("Guess-O-Meters") fluctuate wildly based on driving style.
+3. **Charger Incompatibility**: Arriving at a charger only to find mismatched plugs (e.g., GB/T vs CCS2).
+4. **Charger Unavailability & Queues**: Arriving at a station with non-functional equipment or long queues.
+5. **Vehicle Heterogeneity**: Different EVs have vastly different capacities (e.g. 19.2 kWh Tiago vs 72.6 kWh Ioniq 5).
+6. **Environmental Variability**: Highway speeds ($>80\text{ km/h}$), AC in tropical heat, and uphill climbs drain energy non-linearly.
+7. **Proximity Trap**: The nearest charger is often a slow 7.2 kW AC charger rather than a high-power DC fast charger.
+8. **Lack of Explainability**: Drivers do not trust opaque black-box recommendations without clear rationale.
+9. **Wasted Charging Time**: Drivers are stranded at barren highway stops without restrooms, food, or shade.
+10. **Emergency Situations**: Lack of integrated assistance when battery levels drop to critical thresholds.
 
 ---
 
-## 📑 Complete 34-Screen Catalog
+## 💡 3. The ZepGO Solution
 
-### 🚀 Core User Journey (Screens 1–24)
-1. **Splash Screen**: Minimalist EV bolt logo with pulse animation.
-2. **Three Onboarding Screens**: Smart Route, Smart Charging, & Intelligent Journey onboarding carousel.
-3. **Login / Sign-up**: Mobile OTP (`+91`), Google SSO, and Guest Mode.
-4. **Home Screen**: Location inputs, 72% battery status card, Tata Nexon context, quick routes, bottom navigation.
-5. **Select Your EV**: Vehicle cards for Tata Nexon EV Max, MG ZS EV, Mahindra XUV400, Ioniq 5.
-6. **Battery SOC Input**: Interactive SOC slider (0–100%), real range calculation, quick presets.
-7. **Journey Preferences**: AC usage, charging network preferences, payload settings.
-8. **AI Route Analysis**: Animated progress steps checking battery, elevation, weather & charger forecasts.
-9. **Route Results (Hero)**: Chennai → Coimbatore (342 km, 1 stop at Salem), **LOW RISK** green status badge.
-10. **Route Comparison**: 3 options (Optimal, Fastest, Minimal Stops).
-11. **Smart Stop Detection Card**: Contextual break suggestion card during route planning.
-12. **Recommended Stop Screen**: Combined driver rest + EV charging stop at Salem (Zeon 150 kW DC).
-13. **Cafe Recommendation During Charging**: Cafes matched to the exact 24-minute charge duration.
-14. **Charging + Cafe Combined Screen**: Unified stop card with synchronized driver break & charge time gauge.
-15. **Add Stop Selection Menu**: Category selector modal (Cafes, Restaurants, Restrooms, Parks).
-16. **Smart Stop Preferences**: Cuisine selection, dietary preferences, and rest break intervals.
-17. **Route Updated Screen**: Recalculated route timeline, arrival SOC, and total trip duration.
-18. **Alternative Stop Comparison**: Side-by-side comparison of 3 rest stop options along NH544.
-19. **Stop Details Deep-Dive**: In-depth breakdown of Salem Saravana Bhavan & Zeon Fast Charger Hub.
-20. **Live Navigation Map**: Turn-by-turn guidance banner, clean map layer, floating next charger card.
-21. **Smart Stop Live Nav Card**: Floating notification card during live navigation for upcoming recommended stops.
-22. **Charging Station Details**: Key differentiator screen — **+30m / +60m predictive plug availability graphs**.
-23. **Charger Risk Alert Screen**: High congestion prediction warning with 1-tap backup charger reroute button.
-24. **Backup Charger Selection**: Verified backup chargers (Relux Fast Charger 2.4 km away).
+ZepGO solves these challenges through a unified full-stack architecture:
 
-### ⚡ Utility & Profile Views (Screens 25–34)
-25. **Charging Progress Screen**: 120 kW Fast charge gauge, live battery curve, nearby cafe amenities.
-26. **Trip Completed Celebration**: Confetti celebration, total energy delivered, cost & Co2 savings.
-27. **Trip Summary Analytics**: Analytics cards with 98.4% prediction accuracy score & petrol savings.
-28. **Interactive Map Screen**: Search bar & quick filter chips (Fast / Available / Reliable).
-29. **Charging Stations List**: List view sorted by predicted plug availability upon arrival.
-30. **ZepGO AI Assistant**: Clean conversational Q&A interface for EV trip queries.
-31. **Notifications Center**: Real-time alerts on charger status, congestion, and weather changes.
-32. **Saved Places & Hubs**: Saved home/work destinations and favorite charger hubs.
-33. **My EV Garage**: Connected vehicle specs, SOH (98%), and efficiency curves.
-34. **Profile & App Settings**: User account management, preferences, and membership details.
+```
+[ User & EV Profile ] ──> [ Context Factors (Speed, Weather, Topography) ]
+                                    │
+                                    ▼
+                [ Supervised XGBoost Energy Regressor ]
+                                    │
+                                    ▼
+             [ Arrival SOC vs Safety Reserve (18%) Check ]
+                                    │
+                                    ▼
+           [ Multi-Factor Charging Intelligence & Risk Engine ]
+                                    │
+                                    ▼
+            [ "Why This Charger?" Explainability Breakdown ]
+                                    │
+                                    ▼
+         [ Live Navigation HUD + Dynamic Rerouting + Amenities ]
+```
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+## 🏆 4. Competitor Positioning
 
-* **Frontend Framework**: React 18 with TypeScript
-* **Build Tooling**: Vite 8
-* **Styling & Design System**: Tailwind CSS, Lucide Icons, Custom Design Tokens (`src/theme/colors.ts`)
-* **Mapping**: Leaflet / React-Leaflet
-* **State & Data Services**: Modular TypeScript service layer (`src/services/`)
+Existing EV navigation tools (Google Maps, PlugShare, ABRP) offer valuable route planning and static charger directories. ZepGO differentiates by synthesizing vehicle-specific telemetry and contextual intelligence into explainable charging decisions:
+
+| Capability | Traditional Maps | Basic EV Navigators | ZepGO Platform |
+|---|---|---|---|
+| **Routing Metric** | Distance / Traffic Time | Basic Distance / SOC | Physics-based Energy Budget ($kWh$) |
+| **Charger Ranking** | Sorted by Distance | Distance & Brand Filter | **Multi-factor Safety, Speed, Queue & Cost Score** |
+| **Explainability** | None | None | **"Why This Charger?" (WHAT, WHY, IMPACT)** |
+| **Charger Redundancy** | Shows single pin | Shows nearby pins | **Quantified Risk Level (LOW / MEDIUM / HIGH)** |
+| **Driver Amenities** | Generic POIs | Separate search | **"While You Charge" Synchronized Amenities** |
+| **Sudden Weather/Traffic** | Reroutes for traffic only | Static plan | **Dynamic Recalculation with Instant Rerouting** |
+| **Emergency Dispatch** | None | None | **Integrated 1-Tap Roadside SOS Hub** |
 
 ---
 
-## 💻 Getting Started Locally
+## 🛠️ 5. Technology Stack
+
+- **Frontend**:
+  - React 18, TypeScript, Tailwind CSS, Lucide Icons
+  - Interactive Mapping: Leaflet, React-Leaflet, OpenStreetMap
+  - Responsive Light Theme Design System (`#F8FAFC`, Emerald `#10B981`, Slate `#0F172A`)
+  - Resilient Client-Side Fallback Engine
+- **Backend**:
+  - Python 3.11, FastAPI, Uvicorn
+  - Pydantic v2 validation models
+  - RESTful modular architecture across 8 service domains
+- **Machine Learning**:
+  - **XGBoost Regressor**: Supervised energy prediction model ($R^2 = 0.9910$, $\text{MAE} = 1.33\text{ kWh}$)
+  - **Scikit-learn Isolation Forest**: Unsupervised efficiency anomaly detection ($< 3.5\text{ km/kWh}$)
+  - NumPy, Pandas, Joblib
+- **DevOps & Deployment**:
+  - Docker & Docker Compose multi-container orchestration
+  - Vercel SPA deployment configuration (`vercel.json`)
+  - Automated Pytest test suite (14 verified tests)
+
+---
+
+## 🤖 6. Machine Learning Architecture
+
+### 6.1 XGBoost Energy Regressor
+Energy consumption does not scale linearly with distance. ZepGO’s XGBoost regression model takes **9 real-world highway telemetry features**:
+1. `battery_capacity_kwh`
+2. `battery_soc_percent`
+3. `distance_km`
+4. `vehicle_efficiency_km_per_kwh`
+5. `average_speed_kmh` (aerodynamic drag scaling quadratically with speed)
+6. `traffic_factor` (stop-and-go idle draw)
+7. `temperature_celsius` (cabin HVAC thermal load)
+8. `rain_factor` (rolling resistance from wet asphalt)
+9. `elevation_gain_m` (gravitational potential work)
+
+### 6.2 Isolation Forest Anomaly Detection
+The Isolation Forest continuously scores highway efficiency ($km/kWh$). If consumption drops below normal highway bounds (e.g. $< 3.5\text{ km/kWh}$), ZepGO alerts the driver:
+> *"Unusual energy consumption detected. Possible causes: Heavy traffic, low tyre pressure, extreme headwind, or aggressive driving."*
+
+---
+
+## 📸 7. Application Walkthrough & Screenshots
+
+### Master Executive Dashboard
+The primary command center displays real-time driver context:
+- **Greeting**: *"Good evening, Preethi"*
+- **Current EV**: *Tata Nexon EV Max (40.5 kWh, 6.8 km/kWh)*
+- **Battery Card**: *62% SOC (25.1 kWh available, 184 km estimated range, 18% Safety Reserve indicator)*
+- **Destination & Status**: *Coimbatore (142 km, Safe to continue)*
+- **Interactive Route Map**: Leaflet OSM map highlighting the NH544 corridor and recommended charging hubs.
+
+### "Why This Charger?" Explainability Card
+Every recommendation adheres to the 3-pillar explainability framework:
+- **WHAT**: Zeon Charging Hub - Salem Highway (120 kW dual-gun CCS2 fast charger).
+- **WHY**: Optimal corridor position (12 km ahead), guaranteed 24.1% arrival buffer above the 18% reserve, 3 available plugs, lowest tariff (₹18/kWh).
+- **IMPACT**: +24 min charging, +₹180 estimated cost, +18% safety buffer margin restored.
+
+### Live Navigation HUD & Dynamic Recalculation
+- Cruising speed gauge (74 km/h), remaining distance, real-time ETA, and dynamic battery drain.
+- **Simulate Traffic Spike**: Demonstrates real-time rerouting when sudden congestion increases energy draw below the safety threshold.
+
+### "While You Charge" Stop Experience
+- 24-minute fast charging countdown timer and battery charging curve.
+- Nearby amenities within walking distance: Cafe Coffee Day, clean highway restrooms, restaurant, and grocery store.
+
+### Emergency SOS Hub
+- 1-tap roadside dispatch for Low Battery Emergency, Vehicle Breakdown, Flat Tyre, or Accident without unauthorized emergency calls.
+
+---
+
+## 🚀 8. Getting Started
 
 ### Prerequisites
-* **Node.js**: `v18.0.0` or higher
-* **npm**: `v9.0.0` or higher
+- Node.js 18+ & npm
+- Python 3.10+ or 3.11+
+- (Optional) Docker & Docker Compose
 
-### Installation & Local Run
-
+### 8.1 Backend Setup
 ```bash
-# Clone repository
+# Clone the repository
 git clone https://github.com/preethi1918/ZepGO.git
-
-# Navigate to directory
 cd ZepGO
 
-# Install dependencies
+# Install Python requirements
+pip install -r backend/requirements.txt
+
+# Train or verify ML model artifacts
+python -m backend.app.ml.train_model
+
+# Run automated tests
+python -m pytest backend/tests
+
+# Start FastAPI backend
+python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 --reload
+```
+Backend runs at `http://127.0.0.1:8000` (API Docs: `http://127.0.0.1:8000/docs`).
+
+### 8.2 Frontend Setup
+In a new terminal window:
+```bash
+# Install Node dependencies
 npm install
 
-# Start development server
-npm run dev
-```
-
-Open `http://localhost:5173` in your browser to interact with the application.
-
-### Building for Production
-
-```bash
-# Type check & build production bundle
+# Build for production
 npm run build
 
-# Preview production build
-npm run preview
+# Start Vite development server
+npm run dev
 ```
+Frontend runs at `http://localhost:5173`.
+
+### 8.3 Docker Deployment
+```bash
+docker-compose up --build
+```
+- Frontend: `http://localhost:80`
+- Backend: `http://localhost:8000`
 
 ---
 
-## 📄 License
+## 🔑 9. Demo Persona & Default Scenario
 
-Distributed under the MIT License. See `LICENSE` for details.
+- **User**: Preethi (`preethi@zepgo.io` / `password123`)
+- **EV**: Tata Nexon EV Max (40.5 kWh, 62% SOC, 184 km range)
+- **Origin**: Salem Highway Corridor
+- **Destination**: Coimbatore (142 km, 3h 20m)
+- **Safety Reserve**: 18%
+- **Expected Arrival Battery**: 24.1%
+- **Charging Recommendation**: Zeon Charging Hub - Salem Highway (120 kW Fast Charger, 24 min charge)
+
+---
+
+## 📚 10. Platform Documentation Suite
+
+Detailed architectural, API, and setup documentation is available in the repository:
+- 🏛️ [ARCHITECTURE.md](ARCHITECTURE.md) — System design, components, ranking algorithms, and resilience.
+- 📡 [API_DOCUMENTATION.md](API_DOCUMENTATION.md) — Complete 18-endpoint REST API reference.
+- 🧠 [ML_DOCUMENTATION.md](ML_DOCUMENTATION.md) — XGBoost and Isolation Forest training, features, and metrics.
+- 🗄️ [DATABASE_SCHEMA.md](DATABASE_SCHEMA.md) — Pydantic and database entity schemas.
+- ⚙️ [SETUP.md](SETUP.md) — Comprehensive developer setup and environment configuration guide.
+- ✨ [FEATURES.md](FEATURES.md) — Complete 20-phase feature catalog and capability matrix.
+
+---
+
+## 🔮 11. Future Scope
+
+1. **CAN-Bus / OBD-II Integration**: Real-time reading of battery pack temperatures and state-of-health (SOH) via BLE adapters.
+2. **Dynamic Charger Reservation**: Direct API booking of charging slots through OCPP 2.0.1 integration.
+3. **Fleet Management Portal**: Multi-vehicle telemetry dashboard for EV taxi and delivery fleet operators.
+4. **Grid Carbon Intensity Awareness**: Scheduling charging stops during peak renewable energy generation hours.
+
+---
+
+## 🛡️ 12. License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

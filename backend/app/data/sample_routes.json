@@ -1,0 +1,135 @@
+[
+  {
+    "route_id": "route-salem-coimbatore",
+    "origin": "Salem",
+    "destination": "Coimbatore",
+    "routes": [
+      {
+        "id": "route-salem-cbe-fastest",
+        "name": "Fastest Route via NH544 Expressway",
+        "type": "fastest",
+        "distance_km": 142.0,
+        "duration_minutes": 200,
+        "duration_formatted": "3h 20m",
+        "elevation_gain_m": 210,
+        "toll_cost": 215,
+        "energy_consumption_kwh": 20.8,
+        "charging_stops_count": 0,
+        "risk_level": "LOW",
+        "recommended_speed_kmh": 75,
+        "waypoints": [
+          [11.6643, 78.1460],
+          [11.5120, 77.9250],
+          [11.3410, 77.7172],
+          [11.2778, 77.5833],
+          [11.1085, 77.3411],
+          [11.0168, 76.9558]
+        ],
+        "description": "Direct 4-lane NH544 highway with consistent 70-80 km/h cruising. Smooth gradient with moderate traffic.",
+        "charging_station_ids": ["cs-zeon-salem", "cs-chargezone-erode", "cs-zeon-coimbatore-avail"]
+      },
+      {
+        "id": "route-salem-cbe-eco",
+        "name": "Energy Efficient Route via Tiruchengode",
+        "type": "energy_efficient",
+        "distance_km": 149.0,
+        "duration_minutes": 220,
+        "duration_formatted": "3h 40m",
+        "elevation_gain_m": 140,
+        "toll_cost": 110,
+        "energy_consumption_kwh": 18.6,
+        "charging_stops_count": 0,
+        "risk_level": "LOW",
+        "recommended_speed_kmh": 65,
+        "waypoints": [
+          [11.6643, 78.1460],
+          [11.3800, 77.8900],
+          [11.2800, 77.5800],
+          [11.1000, 77.3400],
+          [11.0168, 76.9558]
+        ],
+        "description": "Lower average gradient and fewer heavy acceleration cycles saving ~2.2 kWh of battery energy.",
+        "charging_station_ids": ["cs-zeon-salem", "cs-chargezone-erode"]
+      },
+      {
+        "id": "route-salem-cbe-safe",
+        "name": "Charging Safe Route (Dense Charger Corridor)",
+        "type": "charging_safe",
+        "distance_km": 145.0,
+        "duration_minutes": 210,
+        "duration_formatted": "3h 30m",
+        "elevation_gain_m": 195,
+        "toll_cost": 215,
+        "energy_consumption_kwh": 20.2,
+        "charging_stops_count": 1,
+        "risk_level": "LOW",
+        "recommended_speed_kmh": 70,
+        "waypoints": [
+          [11.6643, 78.1460],
+          [11.4500, 77.8000],
+          [11.2778, 77.5833],
+          [11.1500, 77.2000],
+          [11.0168, 76.9558]
+        ],
+        "description": "Guarantees a verified 150 kW DC charging hub every 45 km, maximizing arrival safety buffer.",
+        "charging_station_ids": ["cs-zeon-salem", "cs-chargezone-erode", "cs-zeon-coimbatore-avail"]
+      }
+    ]
+  },
+  {
+    "route_id": "route-chennai-coimbatore",
+    "origin": "Chennai",
+    "destination": "Coimbatore",
+    "routes": [
+      {
+        "id": "route-chennai-cbe-fastest",
+        "name": "Fastest Route via NH48 / NH544",
+        "type": "fastest",
+        "distance_km": 510.0,
+        "duration_minutes": 510,
+        "duration_formatted": "8h 30m",
+        "elevation_gain_m": 430,
+        "toll_cost": 640,
+        "energy_consumption_kwh": 73.2,
+        "charging_stops_count": 2,
+        "risk_level": "LOW",
+        "recommended_speed_kmh": 80,
+        "waypoints": [
+          [13.0827, 80.2707],
+          [12.9165, 79.1325],
+          [12.5186, 78.2137],
+          [12.1211, 78.1582],
+          [11.6643, 78.1460],
+          [11.2778, 77.5833],
+          [11.0168, 76.9558]
+        ],
+        "description": "Express corridor via Vellore, Krishnagiri, Salem and Perundurai with dual multi-gun 120-150 kW hubs.",
+        "charging_station_ids": ["cs-jiobp-vellore", "cs-tata-krishnagiri", "cs-relux-dharmapuri", "cs-zeon-salem", "cs-chargezone-erode"]
+      },
+      {
+        "id": "route-chennai-cbe-eco",
+        "name": "Energy Efficient Route via Villupuram & Salem",
+        "type": "energy_efficient",
+        "distance_km": 498.0,
+        "duration_minutes": 530,
+        "duration_formatted": "8h 50m",
+        "elevation_gain_m": 380,
+        "toll_cost": 480,
+        "energy_consumption_kwh": 67.4,
+        "charging_stops_count": 2,
+        "risk_level": "LOW",
+        "recommended_speed_kmh": 70,
+        "waypoints": [
+          [13.0827, 80.2707],
+          [12.4300, 79.5500],
+          [11.9400, 79.4900],
+          [11.6643, 78.1460],
+          [11.2778, 77.5833],
+          [11.0168, 76.9558]
+        ],
+        "description": "Flatter profile along NH79 saving ~5.8 kWh across the whole journey.",
+        "charging_station_ids": ["cs-zeon-salem", "cs-chargezone-erode"]
+      }
+    ]
+  }
+]

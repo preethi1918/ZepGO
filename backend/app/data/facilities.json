@@ -1,0 +1,80 @@
+[
+  {
+    "id": "fac-1",
+    "station_id": "cs-zeon-salem",
+    "name": "Saravana Bhavan Pure Veg",
+    "category": "restaurant",
+    "distance_m": 80,
+    "rating": 4.6,
+    "is_open": true,
+    "timings": "06:30 AM - 11:00 PM",
+    "speciality": "South Indian Filter Coffee, Ghee Roast Dosa, Mini Meals",
+    "avg_spend_inr": 180,
+    "features": ["Air Conditioned", "Fast Service (10 min)", "Clean Washrooms", "Family Seating"]
+  },
+  {
+    "id": "fac-2",
+    "station_id": "cs-zeon-salem",
+    "name": "Highway Restrooms & Lounge",
+    "category": "restroom",
+    "distance_m": 40,
+    "rating": 4.7,
+    "is_open": true,
+    "timings": "24 Hours",
+    "speciality": "Sanitized Restrooms with Accessible Facilities",
+    "avg_spend_inr": 0,
+    "features": ["Wheelchair Accessible", "Touchless Handwashing", "Baby Care Room", "Attendant Maintained"]
+  },
+  {
+    "id": "fac-3",
+    "station_id": "cs-zeon-salem",
+    "name": "Cafe Coffee Day Express",
+    "category": "cafe",
+    "distance_m": 120,
+    "rating": 4.3,
+    "is_open": true,
+    "timings": "24 Hours",
+    "speciality": "Cappuccino, Tropical Ice Tea, Garlic Bread",
+    "avg_spend_inr": 220,
+    "features": ["Free High-Speed Wi-Fi", "Charging Ports on Tables", "Grab & Go Snacks"]
+  },
+  {
+    "id": "fac-4",
+    "station_id": "cs-zeon-salem",
+    "name": "24/7 Supermart & Pharmacy",
+    "category": "store",
+    "distance_m": 90,
+    "rating": 4.5,
+    "is_open": true,
+    "timings": "24 Hours",
+    "speciality": "Cold beverages, energy bars, travel essentials, OTC medicines",
+    "avg_spend_inr": 150,
+    "features": ["Quick Checkout", "UPI / Card Payments", "Bottled Water"]
+  },
+  {
+    "id": "fac-5",
+    "station_id": "cs-tata-krishnagiri",
+    "name": "Murugan Idli Shop",
+    "category": "restaurant",
+    "distance_m": 90,
+    "rating": 4.5,
+    "is_open": true,
+    "timings": "07:00 AM - 10:30 PM",
+    "speciality": "Soft Ghee Podi Idli, Sweet Pongal, Jigarthanda",
+    "avg_spend_inr": 160,
+    "features": ["Rapid Service", "Hygienic Kitchen", "Dedicated EV Parking"]
+  },
+  {
+    "id": "fac-8",
+    "station_id": "cs-relux-dharmapuri",
+    "name": "Highway Star Food Court",
+    "category": "restaurant",
+    "distance_m": 60,
+    "rating": 4.6,
+    "is_open": true,
+    "timings": "24 Hours",
+    "speciality": "Multi-cuisine food court: Subway, Pizza Hut, South Indian counter",
+    "avg_spend_inr": 250,
+    "features": ["Large Seating Area", "Air Conditioned", "Kids Play Area"]
+  }
+]
