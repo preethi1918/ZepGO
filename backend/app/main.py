@@ -33,8 +33,23 @@ app.include_router(trip.router)
 app.include_router(facilities.router)
 app.include_router(sos.router)
 
+from pathlib import Path
+from fastapi import Request
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+
+# Static frontend mount if dist exists
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+DIST_DIR = BASE_DIR / "dist"
+
+if DIST_DIR.exists() and (DIST_DIR / "assets").exists():
+    app.mount("/assets", StaticFiles(directory=str(DIST_DIR / "assets")), name="assets")
+
 @app.get("/")
-def root():
+def root(request: Request):
+    accept = request.headers.get("accept", "")
+    if "text/html" in accept and DIST_DIR.exists() and (DIST_DIR / "index.html").exists():
+        return FileResponse(str(DIST_DIR / "index.html"))
     xgb_loaded = get_xgb_model() is not None
     iso_loaded = get_isolation_forest_model() is not None
     return {
@@ -55,6 +70,17 @@ def health_check():
         "service": "zepgo-backend",
         "database": "sample-data-layer-active"
     }
+
+@app.get("/{full_path:path}")
+def serve_spa(full_path: str):
+    if DIST_DIR.exists():
+        target = DIST_DIR / full_path
+        if target.exists() and target.is_file():
+            return FileResponse(str(target))
+        index_file = DIST_DIR / "index.html"
+        if index_file.exists():
+            return FileResponse(str(index_file))
+    return {"error": "Not found", "path": full_path}
 
 if __name__ == "__main__":
     import uvicorn
